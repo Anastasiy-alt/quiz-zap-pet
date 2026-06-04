@@ -1,0 +1,49 @@
+@mixin font-styles($size, $weight: 400, $height: 100%)
+  font-size: $size
+  font-weight: $weight
+  line-height: $height
+  font-family: inherit
+
+@mixin transitionMixin($keys...)
+  $result: ''
+  @each $key in $keys
+    @if $result != ''
+      $result: #{$result}, #{$key} 0.35s ease
+    @else
+      $result: #{$key} 0.35s ease
+  @if $result == ''
+    transition: all 0.35s ease
+  @else
+    transition: #{$result}
+
+@mixin transitionMixinLong($keys...)
+  $result: ''
+  @each $key in $keys
+    @if $result != ''
+      $result: #{$result}, #{$key} 1s ease
+    @else
+      $result: #{$key} 1s ease
+  @if $result == ''
+    transition: all 1s ease
+  @else
+    transition: #{$result}
+
+@mixin laptop
+  @media (max-width: 1919px)
+    @content
+
+@mixin tablet
+  @media (max-width: 1199px)
+    @content
+
+@mixin mobile
+  @media (max-width: 767px)
+    @content
+
+@mixin hover
+  @media (hover: hover) and (pointer: fine)
+    :hover
+      @content
+  @media (hover: none)
+    :active
+      @content

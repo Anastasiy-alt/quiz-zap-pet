@@ -1,0 +1,397 @@
+.btn
+  display: flex
+  flex-direction: row
+  align-items: center
+  padding: 12px 24px
+  width: fit-content
+  border-radius: 8px
+  cursor: pointer
+  position: relative
+  @include font-styles(18px, 400)
+  text-transform: uppercase
+  @include transitionMixin(background, outlinr, color)
+  overflow: hidden
+  text-decoration: none !important
+
+  span
+    z-index: 10
+    @include transitionMixin
+
+  &::after
+    content: ''
+    width: 10px
+    height: 10px
+    border-radius: 8px
+    position: absolute
+    top: 50%
+    @include transitionMixin
+    left: 50%
+    transform: translate(-50%, 100%)
+
+  &_pr
+    background: $indigo
+    color: $lavender
+
+    &::after
+      background: $indigo
+
+  &_sc
+    background: transparent
+    color: $indigo
+
+    &::after
+      background: transparent
+
+    &::before
+      content: ''
+      width: 100%
+      height: 100%
+      border-radius: 8px
+      position: absolute
+      top: 0
+      left: 0
+      outline: 2px solid $indigo
+      outline-offset: -2px
+      z-index: 1
+
+  &_tx
+    color: $indigo
+
+
+@include tablet
+  .btn
+    display: flex
+    flex-direction: row
+    align-items: center
+    padding: 8px 20px
+    @include font-styles(16px, 400, 20px)
+
+@include hover
+  .btn:hover::after
+    width: 150%
+    height: 150%
+    transform: translate(-50%, -50%)
+
+  .btn_pr:hover
+    color: $white
+
+    &::after
+      background: $indigo-dark
+
+  .btn_sc:hover
+    color: $indigo-dark
+    outline-color: $indigo-dark
+
+    &::after
+      background: $lavender-light
+
+  .btn_tx:hover
+    color: $indigo-dark
+
+    span
+      font-weight: 600
+      transform: scale(1.1)
+
+
+.tag
+  @include font-styles(20px, 400)
+  border-radius: 16px
+  padding: 4px 12px
+  outline: 1px solid transparent
+  outline-offset: -1px
+  width: fit-content
+  display: flex
+  flex-direction: row
+  align-items: center
+  position: relative
+  z-index: 1
+  overflow: hidden
+  &::before, &::after
+    content: ''
+    width: 100%
+    height: 100%
+    position: absolute
+    top: 0
+    left: 0
+    background: $white
+    z-index: -1
+  &_ease
+    color: $green
+    outline-color: $green
+    &::after
+      background: rgba($green-light, 0.5)
+  &_medium
+    color: $red-light
+    outline-color: $red-light
+    &::after
+      background: rgba($yellow, 0.5)
+
+  &_hard
+    color: $red
+    outline-color: $red
+    &::after
+      background: rgba($red-light, 0.5)
+@include tablet
+  .tag
+    @include font-styles(14px, 400)
+    padding: 4px 8px
+
+
+.rc
+  display: flex
+  flex-direction: row
+  gap: 12px
+  padding: 16px
+  border-radius: 8px
+  outline: 2px solid $periwinkle
+  color: $indigo
+  outline-offset: -2px
+  cursor: pointer
+  @include transitionMixin(background, color, outline, font-weight)
+
+  &__input
+    position: absolute
+    width: 1px
+    height: 1px
+    overflow: hidden
+    opacity: 0
+    clip-path: inset(0 0 0 0)
+
+    &:checked ~ .rc__inputCustom::after
+      background: $indigo
+      transform: scale(1)
+
+
+  &__inputCustom
+    width: 20px
+    height: 20px
+    min-width: 20px
+    min-height: 20px
+    background: $white
+    border-radius: 4px
+    outline: 2px solid $lavender-light
+    @include transitionMixin(outline)
+    position: relative
+
+    &::after
+      content: ''
+      position: absolute
+      inset: 3px
+      width: 14px
+      height: 14px
+      background: transparent
+      @include transitionMixin(background, transform)
+      border-radius: inherit
+      transform: scale(0.3)
+
+  &.rc_radio
+    .rc__inputCustom
+      border-radius: 100%
+
+  &__block
+    display: flex
+    flex-direction: column
+    gap: 4px
+
+  &__text
+    @include font-styles(20px, 400)
+
+  &__description
+    color: $periwinkle
+    @include font-styles(18px, 400)
+
+  &:has(.rc__input:disabled)
+    opacity: 0.8
+    pointer-events: none
+
+.rc_error
+  background: rgba($red-light, 0.3)
+  color: $red
+  outline-color: $red
+  cursor: default
+  pointer-events: none
+
+  .rc
+    &__inputCustom
+      outline: 2px solid $red
+
+    &__input:checked ~ .rc__inputCustom::after
+      background: $red
+
+    &__text
+      font-weight: 500
+
+    &__description
+      color: $red
+
+.rc_correct
+  background: rgba($green-light, 0.4)
+  color: $green
+  outline-color: $green
+  cursor: default
+  pointer-events: none
+
+  .rc
+    &__inputCustom
+      outline: 2px solid $green
+
+    &__input:checked ~ .rc__inputCustom::after
+      background: $green
+
+    &__text
+      font-weight: 500
+
+    &__description
+      color: $green
+
+@include tablet
+  .rc
+    gap: 8px
+    padding: 12px
+
+    &__text
+      @include font-styles(16px, 400)
+
+    &__description
+      color: $periwinkle
+      @include font-styles(14px, 400)
+
+    &__inputCustom
+      width: 16px
+      height: 16px
+      min-width: 16px
+      min-height: 16px
+
+      &::after
+        inset: 2px
+        width: 12px
+        height: 12px
+
+@include hover
+  .rc:hover
+    outline-color: $indigo
+    color: $indigo-dark
+    background: $white
+
+    .rc__inputCustom
+      outline-color: $periwinkle
+
+    .rc__input:checked ~ .rc__inputCustom
+      outline-color: $indigo
+
+
+.life
+  display: flex
+  flex-direction: row
+  gap: 6px
+
+  &__item
+    width: 20px
+    height: 20px
+    min-width: 20px
+    min-height: 20px
+    position: relative
+
+  &__icon_lose
+    animation: heartPop 0.7s forwards ease-in-out
+
+@include tablet
+  .life
+    gap: 4px
+
+    &__item
+      width: 15px
+      height: 15px
+      min-width: 15px
+      min-height: 15px
+
+@keyframes heartPop
+  0%
+    transform: scale(1)
+  33%
+    transform: scale(1.5)
+  66%
+    transform: scale(0.6)
+    opacity: 1
+  100%
+    transform: scale(1.7)
+    opacity: 0
+
+.timer
+  display: grid
+  grid-template-columns: 1fr 1fr
+  gap: 4px
+  justify-items: start
+  align-items: center
+  background: rgba($yellow, 0.5)
+  padding: 4px 12px
+  @include font-styles(16px, 600)
+  color: $red-light
+  border-radius: 16px
+  width: fit-content
+  min-width: 100px
+  outline: 1px solid $red-light
+  outline-offset: -1px
+
+  &__icon
+    width: 16px
+    height: 16px
+    min-width: 16px
+    min-height: 16px
+    margin: 4px
+    outline: 2px solid $red-light
+    outline-offset: 2px
+    border-radius: 100%
+    position: relative
+    justify-self: end
+
+    &::after
+      content: ''
+      width: 2px
+      height: 8px
+      background: $red-light
+      border-radius: 4px
+      position: absolute
+      top: 0
+      left: 50%
+      transform: translate(-50%, 0) rotate(var(--rotate))
+      transform-origin: bottom center
+      @include transitionMixinLong(transform)
+
+
+.progress
+  display: flex
+  flex-direction: row
+  align-items: center
+  width: 100%
+  padding: 0 4px
+
+  &__meter
+    background-color: $lavender-light
+    width: 100%
+    height: 8px
+    border-radius: 8px
+    position: relative
+    outline: 2px solid $lavender-light
+    outline-offset: -2px
+
+    &::after
+      content: ''
+      position: absolute
+      top: 0
+      left: 0
+      height: 8px
+      width: var(--w)
+      background: $indigo
+      border-radius: 8px
+      outline: 3px solid $lavender-light
+      @include transitionMixin(width)
+
+  &__count
+    white-space: nowrap
+    @include font-styles(18px, 600)
+    color: $indigo-darkness
+    min-width: 70px
+    text-align: right
+
+

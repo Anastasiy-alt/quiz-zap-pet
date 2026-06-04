@@ -1,0 +1,120 @@
+.card
+  padding: 16px
+  border-radius: 12px
+  outline: 2px solid $periwinkle
+  outline-offset: -2px
+  background: $white
+  display: flex
+  flex-direction: column
+  gap: 16px
+  @include transitionMixin(background, outline)
+  &__title
+    @include font-styles(20px, 600)
+    color: $indigo-dark
+    @include transitionMixin(color)
+  &__subtitle
+    @include font-styles(16px, 400)
+    color: $indigo
+    @include transitionMixin(color)
+  &__icon
+    @include transitionMixin(background, outline)
+    outline: 2px solid transparent
+    display: flex
+    flex-direction: column
+    align-items: center
+    justify-content: center
+    width: 50px
+    height: 50px
+    min-height: 50px
+    min-width: 50px
+    border-radius: 8px
+    background: $periwinkle
+    @include font-styles(24px)
+  &__top
+    display: flex
+    flex-direction: row
+    justify-content: space-between
+    align-items: center
+  &__main
+    display: flex
+    flex-direction: column
+    gap: 4px
+    margin-bottom: auto
+  &__bottom
+    display: flex
+    flex-direction: row
+    justify-content: space-between
+    align-items: flex-end
+    position: relative
+    padding-top: 4px
+    &::after
+      content: ''
+      text-align: right
+      position: absolute
+      top: 0
+      right: 0
+      background: $lavender
+      border-radius: 100%
+      height: 2px
+      width: 100%
+      z-index: 1
+    &::before
+      content: ''
+      text-align: right
+      position: absolute
+      top: 0
+      right: 0
+      background: $periwinkle
+      border-radius: 100%
+      height: 2px
+      width: 0
+      z-index: 2
+      @include transitionMixinLong(width, left, right)
+
+  &__count
+    display: flex
+    flex-direction: column
+    &Value
+      @include font-styles(36px, 600)
+      color: $indigo-dark
+      @include transitionMixin(color)
+    &Text
+      @include font-styles(16px, 400)
+      color: $indigo
+      @include transitionMixin(color)
+@include tablet
+  .card
+    padding: 12px
+    gap: 12px
+    &__title
+      @include font-styles(18px, 600)
+    &__subtitle
+      @include font-styles(14px, 400)
+    &__count
+      &Value
+        @include font-styles(30px, 600)
+      &Text
+        @include font-styles(14px, 400)
+
+@include  hover
+  .card:hover
+    background: $lavender-light
+    outline-color: $indigo
+    .card
+      &__icon
+        background: $white
+        outline-color: $periwinkle
+      &__title
+        color: $indigo-darkness
+      &__subtitle
+        color: $indigo-dark
+      &__count
+        &Value
+          color: $indigo-darkness
+        &Text
+          color: $indigo-dark
+      &__bottom
+        &::before
+          width: 100%
+          left: 0
+          right: auto
