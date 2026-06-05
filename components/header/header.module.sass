@@ -1,0 +1,57 @@
+.header
+  max-width: min(1400px, 80vw)
+  width: 100%
+  height: 70px
+  border-bottom: 2px solid $indigo
+  position: fixed
+  top: 0
+  left: 50%
+  transform: translateX(-50%)
+  padding: 12px 32px
+  background: $lavender
+  z-index: 100
+
+  &__logo
+    display: flex
+    flex-direction: row
+    gap: 4px
+    background: $white
+    width: fit-content
+    border-radius: 16px
+    padding: 4px 8px
+    align-items: center
+    @include font-styles(22, 600)
+    color: $indigo
+    text-decoration: none
+    outline: 1px solid transparent
+    @include transitionMixin(outline)
+
+  &__svg
+    width: 30px
+    height: 30px
+
+
+@include hover
+  .header__logo:hover
+    outline-color: $indigo
+
+    .header__svg
+      animation: lightFlash 0.5s ease-in-out forwards
+
+
+@keyframes lightFlash
+  0%, 90%, 100%
+    opacity: 1
+    transform: translate(0, 0)
+  20%
+    opacity: 0.1
+    transform: translate(0, - 4px)
+  40%
+    opacity: 1
+    transform: translate(0, 4px)
+  60%
+    opacity: 0.2
+    transform: translate(0, 2px)
+  80%
+    opacity: 1
+    transform: translate(0, - 1px)

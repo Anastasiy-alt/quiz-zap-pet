@@ -16,6 +16,14 @@
   span
     z-index: 10
     @include transitionMixin
+    display: flex
+    flex-direction: row
+    align-items: center
+    gap: 4px
+
+    svg
+      width: 20px
+      height: 20px
 
   &::after
     content: ''
@@ -106,6 +114,7 @@
   position: relative
   z-index: 1
   overflow: hidden
+
   &::before, &::after
     content: ''
     width: 100%
@@ -115,22 +124,28 @@
     left: 0
     background: $white
     z-index: -1
+
   &_ease
     color: $green
     outline-color: $green
+
     &::after
       background: rgba($green-light, 0.5)
+
   &_medium
     color: $red-light
     outline-color: $red-light
+
     &::after
       background: rgba($yellow, 0.5)
 
   &_hard
     color: $red
     outline-color: $red
+
     &::after
       background: rgba($red-light, 0.5)
+
 @include tablet
   .tag
     @include font-styles(14px, 400)

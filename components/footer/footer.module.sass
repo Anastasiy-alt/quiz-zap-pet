@@ -1,0 +1,22 @@
+.footer
+  width: 100%
+  border-top: 2px solid $indigo
+  padding: 32px
+  margin-top: auto
+  display: flex
+  flex-direction: row
+  justify-content: space-between
+  align-items: center
+
+  &__block
+    display: flex
+    flex-direction: column
+    gap: 16px
+
+  &__text
+    @include font-styles(20px, 400)
+    color: $indigo
+
+  &__copyright
+    @include font-styles(16, 600)
+    color: $indigo

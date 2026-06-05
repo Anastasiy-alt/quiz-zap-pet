@@ -1,26 +1,31 @@
 import stl from './ui.module.sass'
+import Link from "next/link";
+import {ReactNode} from "react";
 
 interface Props {
   type?: 'pr' | 'sc' | 'tx'
   text: string
   link?: string
+  target?: '_self' | '_blank' | '_parent' | '_top'
+  children: ReactNode
 }
 
-export default function Button({type = 'pr', text, link}: Props) {
+export default function Button({type = 'pr', text, link, target = '_self', children}: Props) {
   return (
     <>
       {
         link ? (
-          <a href={link}
-             className={`${stl.btn} ${stl.btn}_${type}`}>
+          <Link href={link} target={target}
+                className={`${stl.btn} ${stl.btn}_${type}`}>
             <span>
+              {children}
               {text}
             </span>
-          </a>
+          </Link>
         ) : (
-          <button
-            className={`${stl.btn} ${stl.btn}_${type}`}>
+          <button className={`${stl.btn} ${stl.btn}_${type}`}>
             <span>
+              {children}
               {text}
             </span>
           </button>
