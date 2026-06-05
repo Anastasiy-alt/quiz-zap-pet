@@ -1,10 +1,10 @@
 // ============================================================
 //  QUIZ DATA — 4 темы по 15 вопросов
-//  type: "single"  — один правильный ответ
-//  type: "multiple" — несколько правильных ответов
+//  type: "radio"  — один правильный ответ
+//  type: "checkbox" — несколько правильных ответов
 // ============================================================
 
-interface Qiuz {
+export interface Quiz {
   title: string
   description: string
   emoji: string
@@ -12,7 +12,7 @@ interface Qiuz {
   level: 'ease' | 'medium' | 'hard'
   questions: {
     id: string;
-    type: string;
+    type: 'radio' | 'checkbox';
     question: string;
     options: {
       id: string;
@@ -23,7 +23,7 @@ interface Qiuz {
   }[];
 }
 
-export const QUIZZES: Qiuz[] = [
+export const QUIZZES: Quiz[] = [
 
   // ══════════════════════════════════════════════════
   //  1. ДИНОЗАВРЫ
@@ -37,7 +37,7 @@ export const QUIZZES: Qiuz[] = [
     questions: [
       {
         id: "dino_1",
-        type: "single",
+        type: "radio",
         question: "В какую эру жили динозавры?",
         options: [
           { id: "a", text: "Палеозойская эра" },
@@ -50,7 +50,7 @@ export const QUIZZES: Qiuz[] = [
       },
       {
         id: "dino_2",
-        type: "single",
+        type: "radio",
         question: "Как называется самый известный хищный динозавр?",
         options: [
           { id: "a", text: "Велоцираптор" },
@@ -63,7 +63,7 @@ export const QUIZZES: Qiuz[] = [
       },
       {
         id: "dino_3",
-        type: "multiple",
+        type: "checkbox",
         question: "Какие из этих динозавров были травоядными?",
         options: [
           { id: "a", text: "Трицератопс" },
@@ -77,7 +77,7 @@ export const QUIZZES: Qiuz[] = [
       },
       {
         id: "dino_4",
-        type: "single",
+        type: "radio",
         question: "Сколько рогов было у трицератопса?",
         options: [
           { id: "a", text: "1" },
@@ -90,7 +90,7 @@ export const QUIZZES: Qiuz[] = [
       },
       {
         id: "dino_5",
-        type: "single",
+        type: "radio",
         question: "Какой динозавр был самым длинным?",
         options: [
           { id: "a", text: "Брахиозавр" },
@@ -103,7 +103,7 @@ export const QUIZZES: Qiuz[] = [
       },
       {
         id: "dino_6",
-        type: "multiple",
+        type: "checkbox",
         question: "Какие периоды входят в Мезозойскую эру?",
         options: [
           { id: "a", text: "Триасовый" },
@@ -117,7 +117,7 @@ export const QUIZZES: Qiuz[] = [
       },
       {
         id: "dino_7",
-        type: "single",
+        type: "radio",
         question: "Что означает слово «динозавр» в переводе с греческого?",
         options: [
           { id: "a", text: "Большая ящерица" },
@@ -130,7 +130,7 @@ export const QUIZZES: Qiuz[] = [
       },
       {
         id: "dino_8",
-        type: "single",
+        type: "radio",
         question: "Потомками каких динозавров являются современные птицы?",
         options: [
           { id: "a", text: "Завроподов" },
@@ -143,7 +143,7 @@ export const QUIZZES: Qiuz[] = [
       },
       {
         id: "dino_9",
-        type: "multiple",
+        type: "checkbox",
         question: "Какие особенности были у стегозавра?",
         options: [
           { id: "a", text: "Костяные пластины вдоль спины" },
@@ -157,7 +157,7 @@ export const QUIZZES: Qiuz[] = [
       },
       {
         id: "dino_10",
-        type: "single",
+        type: "radio",
         question: "Где были найдены первые научно описанные останки динозавров?",
         options: [
           { id: "a", text: "В США" },
@@ -170,7 +170,7 @@ export const QUIZZES: Qiuz[] = [
       },
       {
         id: "dino_11",
-        type: "single",
+        type: "radio",
         question: "Какой динозавр имел самые большие рога пропорционально телу?",
         options: [
           { id: "a", text: "Трицератопс" },
@@ -183,7 +183,7 @@ export const QUIZZES: Qiuz[] = [
       },
       {
         id: "dino_12",
-        type: "multiple",
+        type: "checkbox",
         question: "Какие факторы, по версии учёных, привели к массовому вымиранию динозавров?",
         options: [
           { id: "a", text: "Падение крупного астероида" },
@@ -197,7 +197,7 @@ export const QUIZZES: Qiuz[] = [
       },
       {
         id: "dino_13",
-        type: "single",
+        type: "radio",
         question: "Как называется метод, позволяющий определить возраст ископаемых останков?",
         options: [
           { id: "a", text: "Радиоуглеродный анализ" },
@@ -210,7 +210,7 @@ export const QUIZZES: Qiuz[] = [
       },
       {
         id: "dino_14",
-        type: "single",
+        type: "radio",
         question: "Какой динозавр считается самым маленьким из известных?",
         options: [
           { id: "a", text: "Компсогнат" },
@@ -223,7 +223,7 @@ export const QUIZZES: Qiuz[] = [
       },
       {
         id: "dino_15",
-        type: "multiple",
+        type: "checkbox",
         question: "Какие из этих животных не являются динозаврами, хотя жили в ту же эпоху?",
         options: [
           { id: "a", text: "Птерозавры" },
@@ -251,7 +251,7 @@ export const QUIZZES: Qiuz[] = [
       // ── Серия 1: Скамейка ──
       {
         id: "sm_1",
-        type: "single",
+        type: "radio",
         question: "«Скамейка» (№1): Почему Бараш в ясный день выбежал на улицу и в итоге залез на дерево?",
         options: [
           { id: "a", text: "Испугался пчелиного роя у своего дома" },
@@ -265,7 +265,7 @@ export const QUIZZES: Qiuz[] = [
       // ── Серия 1: Скамейка — цитата ──
       {
         id: "sm_2",
-        type: "single",
+        type: "radio",
         question: "«Скамейка» (№1): Крош говорит Барашу, который считает себя виноватым за сломанную скамейку, знаменитую фразу. Что именно он говорит?",
         options: [
           { id: "a", text: "«Не переживай, Бараш, ты того стоишь!»" },
@@ -279,7 +279,7 @@ export const QUIZZES: Qiuz[] = [
       // ── Серия 6: Железная няня ──
       {
         id: "sm_3",
-        type: "single",
+        type: "radio",
         question: "«Железная няня» (№6): Как в итоге была побеждена Железная няня, загнавшая Кроша, Ёжика и Пина в ловушку?",
         options: [
           { id: "a", text: "Пин нажал кнопку аварийного отключения на пульте" },
@@ -293,7 +293,7 @@ export const QUIZZES: Qiuz[] = [
       // ── Серия 6: Железная няня — детали ──
       {
         id: "sm_4",
-        type: "multiple",
+        type: "checkbox",
         question: "«Железная няня» (№6): Что именно Железная няня сделала с поймавшимися ей Смешариками? Выберите всё верное.",
         options: [
           { id: "a", text: "Ёжика накормила манной кашей и запеленала в пелёнки" },
@@ -308,7 +308,7 @@ export const QUIZZES: Qiuz[] = [
       // ── Серия 4: Куда уходит Старый год ──
       {
         id: "sm_5",
-        type: "single",
+        type: "radio",
         question: "«Куда уходит Старый год?» (№4): Кар-Карыч берёт на себя роль командира операции по задержанию Старого года. Как он распределяет посты между смешариками?",
         options: [
           { id: "a", text: "Нюша следит за дверью и окнами, Лосяш — за калиткой, Ёжик — патрулирует двор, Карыч — художественное руководство" },
@@ -322,7 +322,7 @@ export const QUIZZES: Qiuz[] = [
       // ── Серия 86: Ёжик в туманности ──
       {
         id: "sm_6",
-        type: "single",
+        type: "radio",
         question: "«Ёжик в туманности» (№86): Смешарики снимают фантастический фильм. Кто в нём режиссёр, кто играет космонавта, и что роль «внеземного разума»?",
         options: [
           { id: "a", text: "Режиссёр — Лосяш; космонавт — Крош; инопланетянин — Копатыч" },
@@ -336,7 +336,7 @@ export const QUIZZES: Qiuz[] = [
       // ── Серия 86: Ёжик в туманности — чем кончилось ──
       {
         id: "sm_7",
-        type: "single",
+        type: "radio",
         question: "«Ёжик в туманности» (№86): Пин был специалистом по спецэффектам. Что пошло не так во время съёмок?",
         options: [
           { id: "a", text: "Декорации загорелись от пиротехники" },
@@ -350,7 +350,7 @@ export const QUIZZES: Qiuz[] = [
       // ── Серия 38: Горы и конфеты ──
       {
         id: "sm_8",
-        type: "single",
+        type: "radio",
         question: "«Горы и конфеты» (№38): Нюша ставит Барашу условие и произносит ставшую известной фразу. Что она говорит, уходя?",
         options: [
           { id: "a", text: "«Без конфет — без меня!»" },
@@ -364,7 +364,7 @@ export const QUIZZES: Qiuz[] = [
       // ── Серия 38: Горы и конфеты — финал ──
       {
         id: "sm_9",
-        type: "single",
+        type: "radio",
         question: "«Горы и конфеты» (№38): Чем закончилась «сделка» между Барашем и Нюшей, которую устроил Бараш?",
         options: [
           { id: "a", text: "Нюша отказалась от конфет и стала сама любоваться горами" },
@@ -378,7 +378,7 @@ export const QUIZZES: Qiuz[] = [
       // ── Серия 30: Большие гонки ──
       {
         id: "sm_10",
-        type: "single",
+        type: "radio",
         question: "«Большие гонки» (№30): Кто из Смешариков не участвовал в гонках на Кубок Пустыни, а вёл репортаж с воздуха?",
         options: [
           { id: "a", text: "Лосяш" },
@@ -392,7 +392,7 @@ export const QUIZZES: Qiuz[] = [
       // ── Серия 30: Большие гонки — победитель ──
       {
         id: "sm_11",
-        type: "single",
+        type: "radio",
         question: "«Большие гонки» (№30): Кто в итоге пришёл к финишу первым и завоевал Кубок Пустыни?",
         options: [
           { id: "a", text: "Лосяш и Копатыч" },
@@ -406,7 +406,7 @@ export const QUIZZES: Qiuz[] = [
       // ── Серия 3: Фанерное солнце ──
       {
         id: "sm_12",
-        type: "single",
+        type: "radio",
         question: "«Фанерное солнце» (№3): Зачем Крош и Ёжик в начале серии гоняются за единственным лучом солнца?",
         options: [
           { id: "a", text: "Хотят высушить промокшие вещи" },
@@ -420,7 +420,7 @@ export const QUIZZES: Qiuz[] = [
       // ── Серия 142: Бутерброд ──
       {
         id: "sm_13",
-        type: "single",
+        type: "radio",
         question: "«Бутерброд» (№142): Лосяш сел на диету и взял Кроша с Ёжиком в поход. Что происходит ночью в заброшенном доме, куда они попали?",
         options: [
           { id: "a", text: "Лосяш находит тайник с едой и втайне ест" },
@@ -434,7 +434,7 @@ export const QUIZZES: Qiuz[] = [
       // ── Серия 98: Вестибулярный аппарат ──
       {
         id: "sm_14",
-        type: "single",
+        type: "radio",
         question: "«Вестибулярный аппарат» (№98): Крош и Ёжик стояли на голове, а потом встали — и не смогли устоять на ногах. Кто объяснил им, что произошло, и чем занимался в это время Бараш?",
         options: [
           { id: "a", text: "Объяснил Пин; Бараш в это время изобретал машину равновесия" },
@@ -448,7 +448,7 @@ export const QUIZZES: Qiuz[] = [
       // ── Серия 84: Плюс снег, минус ёлка ──
       {
         id: "sm_15",
-        type: "single",
+        type: "radio",
         question: "«Плюс снег, минус ёлка» (№84): Крош объясняет, почему за ёлкой нужно идти именно в горы, а не в лес. Какова его логика?",
         options: [
           { id: "a", text: "В горных ёлках больше шишек, поэтому они красивее" },
@@ -462,7 +462,7 @@ export const QUIZZES: Qiuz[] = [
       // ── Серии 149–150: Тайна древних сокровищ — песня про Омск ──
       {
         id: "sm_16",
-        type: "single",
+        type: "radio",
         question: "В какой серии звучит песня «Город Омск», и почему эти серии вообще были сняты?",
         options: [
           { id: "a", text: "«Археология» (№46) — серия снята про любовь Кар-Карыча к путешествиям" },
@@ -476,7 +476,7 @@ export const QUIZZES: Qiuz[] = [
       // ── Серия 16: Биография зонтика ──
       {
         id: "sm_17",
-        type: "single",
+        type: "radio",
         question: "«Биография зонтика» (№16): Почему Бараш ходил со старым зонтиком в ясный день без единой тучки, и чем закончилась история с этим зонтиком?",
         options: [
           { id: "a", text: "Использовал его как трость — и в финале подарил Ёжику" },
@@ -502,7 +502,7 @@ export const QUIZZES: Qiuz[] = [
     questions: [
       {
         id: "gh_1",
-        type: "single",
+        type: "radio",
         question: "Как называется наука, изучающая паранормальные явления, включая привидений?",
         options: [
           { id: "a", text: "Парапсихология" },
@@ -515,7 +515,7 @@ export const QUIZZES: Qiuz[] = [
       },
       {
         id: "gh_2",
-        type: "single",
+        type: "radio",
         question: "Как называется японское привидение в виде женщины с длинными чёрными волосами?",
         options: [
           { id: "a", text: "Кицунэ" },
@@ -528,7 +528,7 @@ export const QUIZZES: Qiuz[] = [
       },
       {
         id: "gh_3",
-        type: "multiple",
+        type: "checkbox",
         question: "Какие явления часто связывают с присутствием привидений?",
         options: [
           { id: "a", text: "Резкое похолодание воздуха" },
@@ -542,7 +542,7 @@ export const QUIZZES: Qiuz[] = [
       },
       {
         id: "gh_4",
-        type: "single",
+        type: "radio",
         question: "Как называется дружелюбное мультипликационное привидение — персонаж известного мультфильма?",
         options: [
           { id: "a", text: "Слаймер" },
@@ -555,7 +555,7 @@ export const QUIZZES: Qiuz[] = [
       },
       {
         id: "gh_5",
-        type: "single",
+        type: "radio",
         question: "Что такое «полтергейст»?",
         options: [
           { id: "a", text: "Тихий, невидимый дух" },
@@ -568,7 +568,7 @@ export const QUIZZES: Qiuz[] = [
       },
       {
         id: "gh_6",
-        type: "multiple",
+        type: "checkbox",
         question: "Какие культуры имеют собственных духов/привидений в фольклоре?",
         options: [
           { id: "a", text: "Японская (юрэй)" },
@@ -582,7 +582,7 @@ export const QUIZZES: Qiuz[] = [
       },
       {
         id: "gh_7",
-        type: "single",
+        type: "radio",
         question: "Как называется дух-хранитель дома в славянском фольклоре?",
         options: [
           { id: "a", text: "Водяной" },
@@ -595,7 +595,7 @@ export const QUIZZES: Qiuz[] = [
       },
       {
         id: "gh_8",
-        type: "single",
+        type: "radio",
         question: "Как называется ирландский/шотландский дух, предвещающий смерть воем?",
         options: [
           { id: "a", text: "Баньши" },
@@ -608,7 +608,7 @@ export const QUIZZES: Qiuz[] = [
       },
       {
         id: "gh_9",
-        type: "multiple",
+        type: "checkbox",
         question: "Какие инструменты якобы используют охотники за привидениями?",
         options: [
           { id: "a", text: "EMF-детектор (датчик электромагнитных полей)" },
@@ -622,7 +622,7 @@ export const QUIZZES: Qiuz[] = [
       },
       {
         id: "gh_10",
-        type: "single",
+        type: "radio",
         question: "Как называется привидение-двойник живого человека?",
         options: [
           { id: "a", text: "Фантом" },
@@ -635,7 +635,7 @@ export const QUIZZES: Qiuz[] = [
       },
       {
         id: "gh_11",
-        type: "single",
+        type: "radio",
         question: "В каком известном фильме фраза «Я вижу мёртвых людей» стала крылатой?",
         options: [
           { id: "a", text: "«Сияние»" },
@@ -648,7 +648,7 @@ export const QUIZZES: Qiuz[] = [
       },
       {
         id: "gh_12",
-        type: "multiple",
+        type: "checkbox",
         question: "Какие здания чаще всего считаются «населёнными» привидениями в народных поверьях?",
         options: [
           { id: "a", text: "Старые замки и особняки" },
@@ -662,7 +662,7 @@ export const QUIZZES: Qiuz[] = [
       },
       {
         id: "gh_13",
-        type: "single",
+        type: "radio",
         question: "Как называется возвращение умершего в виде призрака ради мести?",
         options: [
           { id: "a", text: "Фантом" },
@@ -675,7 +675,7 @@ export const QUIZZES: Qiuz[] = [
       },
       {
         id: "gh_14",
-        type: "single",
+        type: "radio",
         question: "Какой цвет традиционно ассоциируется с привидениями и потусторонним миром?",
         options: [
           { id: "a", text: "Красный" },
@@ -688,7 +688,7 @@ export const QUIZZES: Qiuz[] = [
       },
       {
         id: "gh_15",
-        type: "multiple",
+        type: "checkbox",
         question: "Какие методы традиционно использовались для защиты от злых духов?",
         options: [
           { id: "a", text: "Соль, рассыпанная у порога" },
@@ -715,7 +715,7 @@ export const QUIZZES: Qiuz[] = [
     questions: [
       {
         id: "wt_1",
-        type: "single",
+        type: "radio",
         question: "Как называется вращающийся столб воздуха, соединяющий грозовое облако с землёй?",
         options: [
           { id: "a", text: "Ураган" },
@@ -728,7 +728,7 @@ export const QUIZZES: Qiuz[] = [
       },
       {
         id: "wt_2",
-        type: "single",
+        type: "radio",
         question: "Что такое «антициклон»?",
         options: [
           { id: "a", text: "Зона пониженного давления с дождями" },
@@ -741,7 +741,7 @@ export const QUIZZES: Qiuz[] = [
       },
       {
         id: "wt_3",
-        type: "multiple",
+        type: "checkbox",
         question: "Какие условия необходимы для образования грозы?",
         options: [
           { id: "a", text: "Влажный, тёплый воздух у поверхности" },
@@ -755,7 +755,7 @@ export const QUIZZES: Qiuz[] = [
       },
       {
         id: "wt_4",
-        type: "single",
+        type: "radio",
         question: "Как называется оптическое явление в виде разноцветной дуги на небе?",
         options: [
           { id: "a", text: "Гало" },
@@ -768,7 +768,7 @@ export const QUIZZES: Qiuz[] = [
       },
       {
         id: "wt_5",
-        type: "single",
+        type: "radio",
         question: "Сколько цветов у радуги?",
         options: [
           { id: "a", text: "5" },
@@ -781,7 +781,7 @@ export const QUIZZES: Qiuz[] = [
       },
       {
         id: "wt_6",
-        type: "multiple",
+        type: "checkbox",
         question: "Какие типы облаков относятся к высоким (выше 6 000 м)?",
         options: [
           { id: "a", text: "Перистые (Cirrus)" },
@@ -795,7 +795,7 @@ export const QUIZZES: Qiuz[] = [
       },
       {
         id: "wt_7",
-        type: "single",
+        type: "radio",
         question: "Как называется тропический циклон в Тихом и Индийском океанах?",
         options: [
           { id: "a", text: "Ураган" },
@@ -808,7 +808,7 @@ export const QUIZZES: Qiuz[] = [
       },
       {
         id: "wt_8",
-        type: "single",
+        type: "radio",
         question: "При какой температуре вода замерзает при нормальном давлении?",
         options: [
           { id: "a", text: "−4 °C" },
@@ -821,7 +821,7 @@ export const QUIZZES: Qiuz[] = [
       },
       {
         id: "wt_9",
-        type: "multiple",
+        type: "checkbox",
         question: "Какие явления относятся к атмосферным осадкам?",
         options: [
           { id: "a", text: "Дождь" },
@@ -835,7 +835,7 @@ export const QUIZZES: Qiuz[] = [
       },
       {
         id: "wt_10",
-        type: "single",
+        type: "radio",
         question: "Как называется явление, при котором горячий воздух вблизи земли создаёт иллюзию воды?",
         options: [
           { id: "a", text: "Радуга" },
@@ -848,7 +848,7 @@ export const QUIZZES: Qiuz[] = [
       },
       {
         id: "wt_11",
-        type: "single",
+        type: "radio",
         question: "Что такое «El Niño» («Эль-Ниньо»)?",
         options: [
           { id: "a", text: "Тёплое течение в Тихом океане, влияющее на климат" },
@@ -861,7 +861,7 @@ export const QUIZZES: Qiuz[] = [
       },
       {
         id: "wt_12",
-        type: "multiple",
+        type: "checkbox",
         question: "Какие явления могут сопровождать сильную грозу?",
         options: [
           { id: "a", text: "Молния и гром" },
@@ -875,7 +875,7 @@ export const QUIZZES: Qiuz[] = [
       },
       {
         id: "wt_13",
-        type: "single",
+        type: "radio",
         question: "Какой прибор измеряет атмосферное давление?",
         options: [
           { id: "a", text: "Термометр" },
@@ -888,7 +888,7 @@ export const QUIZZES: Qiuz[] = [
       },
       {
         id: "wt_14",
-        type: "single",
+        type: "radio",
         question: "Как называется световое явление вокруг Солнца или Луны, вызванное кристаллами льда в перистых облаках?",
         options: [
           { id: "a", text: "Радуга" },
@@ -901,7 +901,7 @@ export const QUIZZES: Qiuz[] = [
       },
       {
         id: "wt_15",
-        type: "multiple",
+        type: "checkbox",
         question: "Какие факторы влияют на формирование климата региона?",
         options: [
           { id: "a", text: "Широта (расстояние от экватора)" },

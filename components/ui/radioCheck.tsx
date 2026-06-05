@@ -1,4 +1,5 @@
 import stl from './ui.module.sass'
+import {ChangeEventHandler} from "react";
 
 interface Props {
   text?: string
@@ -10,11 +11,18 @@ interface Props {
   type: 'radio' | 'checkbox'
   id: string
   name: string
+  value?: string
+  action?: ChangeEventHandler<HTMLLabelElement>,
 }
-export default function RadioCheck({text, checked = false, correct = false, disabled, description, error = false, type, id, name}: Props) {
+export default function RadioCheck({text, checked = false, correct = false, disabled, description, error = false, type, id, name, value, action}: Props) {
   return(
-    <label className={`${stl.rc} ${stl.rc}_${type} ${error ? stl.rc_error : ''} ${correct ? stl.rc_correct : ''}`} id={id}>
-      <input className={stl.rc__input} type={type} name={name} disabled={disabled} defaultChecked={checked || error || correct}/>
+    <label className={`${stl.rc} ${stl.rc}_${type} ${error ? stl.rc_error : ''} ${correct ? stl.rc_correct : ''}`} id={id} onChange={action}>
+      <input className={stl.rc__input}
+             type={type}
+             name={name}
+             value={value}
+             disabled={disabled}
+             defaultChecked={checked || error || correct}/>
       <span className={stl.rc__inputCustom}></span>
       <span className={stl.rc__block}>
         {

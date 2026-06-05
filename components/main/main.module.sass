@@ -11,6 +11,22 @@
   outline: 4px solid $lavender-light
   outline-offset: 4px
   border: 4px solid $lavender-light
+  @include tablet
+    padding: 64px 24px
+  @include mobile
+    padding: 32px 24px
+  &__atom
+    position: absolute
+    top: 50%
+    right: 64px
+    transform: translateY(-50%)
+    @include laptop
+      right: 32px
+      top: auto
+      transform: translate(0)
+      bottom: 32px
+    @include mobile
+      display: none
   &__subtitle
     @include font-styles(20px, 400)
     color: $indigo-darkness
@@ -20,12 +36,16 @@
     width: fit-content
     padding-top: 8px
     z-index: 2
+    @include tablet
+      @include font-styles(16px, 400)
   &__title
     @include font-styles(36px, 600, 46px)
     display: flex
     flex-direction: column
     color: $indigo-darkness
     z-index: 2
+    @include tablet
+      @include font-styles(24px, 600, 34px)
     &Out
       overflow: hidden
       &:nth-child(1) .hero__titleIn
@@ -64,3 +84,127 @@
     display: grid
     grid-template-columns: repeat(3, 1fr)
     gap: 16px
+    @include tablet
+      grid-template-columns: repeat(2, 1fr)
+    @include mobile
+      grid-template-columns: 1fr
+.atom
+  position: relative
+  width: 320px
+  height: 320px
+  &__nucleus
+    position: absolute
+    top: 50%
+    left: 50%
+    transform: translate(-50%, -50%)
+    width: 50px
+    height: 50px
+    display: flex
+    align-items: center
+    justify-content: center
+    z-index: 10
+    background: $white
+    border-radius: 100%
+    outline: 10px solid $white
+    outline-offset: -2px
+  &__orbit
+    position: absolute
+    top: 50%
+    left: 50%
+    transform: translate(-50%, -50%)
+    border-radius: 50%
+    border: 2px dashed $lavender-light
+    &:nth-child(2)
+      width: 160px
+      height: 160px
+    &:nth-child(3)
+      width: 240px
+      height: 240px
+    &:nth-child(4)
+      width: 100%
+      height: 100%
+  &__particle
+    position: absolute
+    top: 50%
+    left: 50%
+    font-size: 30px
+    line-height: 1
+    transform-origin: center
+  &__orb1
+    animation: spin1 8s linear infinite
+
+  &__orb2
+    animation: spin2 11s linear infinite
+
+  &__orb3
+    animation: spin3 7s linear infinite
+
+
+@keyframes spin1
+  from
+    transform: translate(-50%, -50%) rotate(0deg) translate(80px)  rotate(0deg)
+  to
+    transform: translate(-50%, -50%) rotate(360deg) translate(80px)  rotate(-360deg)
+
+@keyframes spin2
+  from
+    transform: translate(-50%, -50%) rotate(0deg) translate(120px) rotate(0deg)
+  to
+    transform: translate(-50%, -50%) rotate(360deg) translate(120px) rotate(-360deg)
+
+@keyframes spin3
+  from
+    transform: translate(-50%, -50%) rotate(0deg) translate(160px) rotate(0deg)
+  to
+    transform: translate(-50%, -50%) rotate(360deg) translate(160px) rotate(-360deg)
+@include laptop
+  .atom
+    position: relative
+    width: 280px
+    height: 280px
+    &__orbit
+      &:nth-child(3)
+        width: 220px
+        height: 220px
+
+  @keyframes spin2
+    from
+      transform: translate(-50%, -50%) rotate(0deg) translate(110px) rotate(0deg)
+    to
+      transform: translate(-50%, -50%) rotate(360deg) translate(110px) rotate(-360deg)
+
+  @keyframes spin3
+    from
+      transform: translate(-50%, -50%) rotate(0deg) translate(140px) rotate(0deg)
+    to
+      transform: translate(-50%, -50%) rotate(360deg) translate(140px) rotate(-360deg)
+@include tablet
+  .atom
+    position: relative
+    width: 240px
+    height: 240px
+    &__particle
+      font-size: 24px
+    &__orbit
+      &:nth-child(3)
+        width: 180px
+        height: 180px
+      &:nth-child(2)
+        width: 120px
+        height: 120px
+  @keyframes spin1
+    from
+      transform: translate(-50%, -50%) rotate(0deg) translate(60px) rotate(0deg)
+    to
+      transform: translate(-50%, -50%) rotate(360deg) translate(60px) rotate(-360deg)
+  @keyframes spin2
+    from
+      transform: translate(-50%, -50%) rotate(0deg) translate(90px) rotate(0deg)
+    to
+      transform: translate(-50%, -50%) rotate(360deg) translate(90px) rotate(-360deg)
+
+  @keyframes spin3
+    from
+      transform: translate(-50%, -50%) rotate(0deg) translate(120px) rotate(0deg)
+    to
+      transform: translate(-50%, -50%) rotate(360deg) translate(120px) rotate(-360deg)

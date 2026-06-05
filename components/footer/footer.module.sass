@@ -18,5 +18,17 @@
     color: $indigo
 
   &__copyright
-    @include font-styles(16, 600)
+    @include font-styles(16px, 600)
     color: $indigo
+@include mobile
+  .footer
+    padding: 16px
+    flex-direction: column-reverse
+    gap: 16px
+    justify-content: center
+    &__block
+      align-items: center
+    &__text
+      text-align: center
+      width: 300px
+      @include font-styles(18px, 400)

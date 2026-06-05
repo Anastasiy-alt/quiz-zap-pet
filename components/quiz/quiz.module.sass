@@ -6,7 +6,7 @@
   background: $white
   display: flex
   flex-direction: column
-  gap: 16px
+  gap: 24px
   min-height: 280px
   @include transitionMixin(background, outline)
   &__title
@@ -86,7 +86,6 @@
 @include tablet
   .card
     padding: 12px
-    gap: 12px
     &__title
       @include font-styles(18px, 600)
     &__subtitle
@@ -96,7 +95,9 @@
         @include font-styles(30px, 600)
       &Text
         @include font-styles(14px, 400)
-
+@include mobile
+  .card
+    min-height: fit-content
 @include  hover
   .card:hover
     background: $lavender-light
@@ -119,3 +120,50 @@
           width: 100%
           left: 0
           right: auto
+
+.app
+  background: $white
+  border-radius: 32px
+  outline: 4px solid $lavender-light
+  outline-offset: 4px
+  border: 4px solid $lavender-light
+  padding: 16px
+  display: flex
+  flex-direction: column
+  gap: 24px
+  &__top
+    display: flex
+    flex-direction: row
+    align-items: center
+    gap: 24px
+  &__main
+    display: grid
+    grid-template-columns: repeat(2, 1fr)
+    gap: 16px
+    &Right
+      display: flex
+      flex-direction: column
+      gap: 8px
+  &__title
+    color: $indigo-darkness
+    @include font-styles(24px, 400)
+  &__bottom
+    padding-top: 8px
+    border-top: 2px solid $lavender-light
+    &Out
+      margin-left: auto
+      max-width: 150px
+      display: flex
+      flex-direction: row
+      justify-content: flex-end
+      overflow: hidden
+    &In
+      display: flex
+      flex-direction: row
+      gap: 16px
+      width: fit-content
+      @include transitionMixin(transform)
+      &_slide
+        transform: translateX(160px)
+
+
