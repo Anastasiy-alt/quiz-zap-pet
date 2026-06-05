@@ -7,7 +7,7 @@ interface Props {
   text: string
   link?: string
   target?: '_self' | '_blank' | '_parent' | '_top'
-  children: ReactNode
+  children?: ReactNode
 }
 
 export default function Button({type = 'pr', text, link, target = '_self', children}: Props) {

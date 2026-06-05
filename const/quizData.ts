@@ -4,7 +4,26 @@
 //  type: "multiple" — несколько правильных ответов
 // ============================================================
 
-export const QUIZZES = [
+interface Qiuz {
+  title: string
+  description: string
+  emoji: string
+  id: string
+  level: 'ease' | 'medium' | 'hard'
+  questions: {
+    id: string;
+    type: string;
+    question: string;
+    options: {
+      id: string;
+      text: string;
+    }[];
+    correct: string[];
+    explanation: string;
+  }[];
+}
+
+export const QUIZZES: Qiuz[] = [
 
   // ══════════════════════════════════════════════════
   //  1. ДИНОЗАВРЫ
@@ -14,6 +33,7 @@ export const QUIZZES = [
     title: "Динозавры",
     description: "Проверь свои знания о древних ящерах, правивших Землёй миллионы лет назад!",
     emoji: "🦕",
+    level: "medium",
     questions: [
       {
         id: "dino_1",
@@ -223,9 +243,10 @@ export const QUIZZES = [
   // ══════════════════════════════════════════════════
   {
     id: "smeshariki",
-    title: "Смешарики: Экспертный уровень",
+    title: "Смешарики",
     description: "Только для тех, кто смотрел каждую серию. Конкретные сюжеты, цитаты, детали — никакой пощады!",
     emoji: "🐷",
+    level: "hard",
     questions: [
       // ── Серия 1: Скамейка ──
       {
@@ -477,6 +498,7 @@ export const QUIZZES = [
     title: "Привидения",
     description: "Знаешь ли ты всё о духах, призраках и паранормальных явлениях?",
     emoji: "👻",
+    level: "medium",
     questions: [
       {
         id: "gh_1",
@@ -688,7 +710,8 @@ export const QUIZZES = [
     id: "weather",
     title: "Погодные явления",
     description: "Насколько хорошо ты разбираешься в атмосферных явлениях и погоде?",
-    emoji: "⛈️",
+    emoji: "🌤️",
+    level: 'ease',
     questions: [
       {
         id: "wt_1",
@@ -899,30 +922,30 @@ export const QUIZZES = [
 // ============================================================
 
 /** Получить квиз по id */
-export const getQuizById = (id) => QUIZZES.find((q) => q.id === id) ?? null;
+// export const getQuizById = (id) => QUIZZES.find((q) => q.id === id) ?? null;
 
 /** Получить вопрос по id внутри квиза */
-export const getQuestionById = (quizId, questionId) =>
-  getQuizById(quizId)?.questions.find((q) => q.id === questionId) ?? null;
+// export const getQuestionById = (quizId, questionId) =>
+//   getQuizById(quizId)?.questions.find((q) => q.id === questionId) ?? null;
 
 /** Проверить ответы (массив выбранных id вариантов) */
-export const checkAnswer = (quizId, questionId, selectedIds) => {
-  const question = getQuestionById(quizId, questionId);
-  if (!question) return null;
-  const selected = [...selectedIds].sort();
-  const correct = [...question.correct].sort();
-  return (
-    selected.length === correct.length &&
-    selected.every((id, i) => id === correct[i])
-  );
-};
+// export const checkAnswer = (quizId, questionId, selectedIds) => {
+//   const question = getQuestionById(quizId, questionId);
+//   if (!question) return null;
+//   const selected = [...selectedIds].sort();
+//   const correct = [...question.correct].sort();
+//   return (
+//     selected.length === correct.length &&
+//     selected.every((id, i) => id === correct[i])
+//   );
+// };
 
 /** Подсчитать итоговый балл */
-export const calculateScore = (quizId, answers) => {
-  // answers: { [questionId]: string[] }
-  const quiz = getQuizById(quizId);
-  if (!quiz) return 0;
-  return quiz.questions.reduce((score, q) => {
-    return score + (checkAnswer(quizId, q.id, answers[q.id] ?? []) ? 1 : 0);
-  }, 0);
-};
+// export const calculateScore = (quizId, answers) => {
+//   // answers: { [questionId]: string[] }
+//   const quiz = getQuizById(quizId);
+//   if (!quiz) return 0;
+//   return quiz.questions.reduce((score, q) => {
+//     return score + (checkAnswer(quizId, q.id, answers[q.id] ?? []) ? 1 : 0);
+//   }, 0);
+// };

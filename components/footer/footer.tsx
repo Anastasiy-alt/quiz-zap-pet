@@ -6,7 +6,7 @@ export default function FooterApp() {
     <footer className={stl.footer}>
       <div className={stl.footer__block}>
         <i className={stl.footer__text}>
-          Сделано людьми которые сами провалили пару квизов.
+          Сделано людьми которые сами провалили пару квизов
         </i>
         <p className={stl.footer__copyright}>© 2026 QuizZap</p>
       </div>
