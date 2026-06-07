@@ -9,8 +9,8 @@
   position: relative
   overflow: hidden
   outline: 4px solid $lavender-light
-  outline-offset: 4px
-  border: 4px solid $lavender-light
+  @include laptop
+    padding: 50px 32px 100px
   @include tablet
     padding: 64px 24px
   @include mobile
@@ -22,6 +22,7 @@
     transform: translateY(-50%)
     @include laptop
       right: 32px
+    @include tablet
       top: auto
       transform: translate(0)
       bottom: 32px
@@ -127,7 +128,7 @@
     position: absolute
     top: 50%
     left: 50%
-    font-size: 30px
+    font-size: 36px
     line-height: 1
     transform-origin: center
   &__orb1

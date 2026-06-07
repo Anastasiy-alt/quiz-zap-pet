@@ -9,9 +9,12 @@
   position: relative
   @include font-styles(18px, 400)
   text-transform: uppercase
-  @include transitionMixin(background, outlinr, color)
+  @include transitionMixin(background, outline, color, opacity)
   overflow: hidden
   text-decoration: none !important
+  &_dis
+    opacity: 0.5
+    pointer-events: none !important
 
   span
     z-index: 10
@@ -164,7 +167,7 @@
   outline-offset: -2px
   cursor: pointer
   @include transitionMixin(background, color, outline, font-weight)
-
+  align-items: center
   &__input
     position: absolute
     width: 1px
@@ -226,7 +229,8 @@
   outline-color: $red
   cursor: default
   pointer-events: none
-
+  &:has(.rc__input:disabled)
+    opacity: 1
   .rc
     &__inputCustom
       outline: 2px solid $red
@@ -246,7 +250,8 @@
   outline-color: $green
   cursor: default
   pointer-events: none
-
+  &:has(.rc__input:disabled)
+    opacity: 1
   .rc
     &__inputCustom
       outline: 2px solid $green
@@ -370,7 +375,7 @@
       position: absolute
       top: 0
       left: 50%
-      transform: translate(-50%, 0) rotate(var(--rotate))
+      transform: translate(-50%, 0) rotate(var(--rotate, 360))
       transform-origin: bottom center
       @include transitionMixinLong(transform)
 

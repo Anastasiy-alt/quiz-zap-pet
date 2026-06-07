@@ -245,7 +245,7 @@ export const QUIZZES: Quiz[] = [
     id: "smeshariki",
     title: "Смешарики",
     description: "Только для тех, кто смотрел каждую серию. Конкретные сюжеты, цитаты, детали — никакой пощады!",
-    emoji: "🐷",
+    emoji: "🍿",
     level: "hard",
     questions: [
       // ── Серия 1: Скамейка ──
