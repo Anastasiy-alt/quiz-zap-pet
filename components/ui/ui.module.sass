@@ -48,7 +48,7 @@
       background: $indigo
 
   &_sc
-    background: transparent
+    background: $lavender
     color: $indigo
 
     &::after
@@ -403,6 +403,7 @@
       left: 0
       height: 8px
       width: var(--w)
+      max-width: 100%
       background: $indigo
       border-radius: 8px
       outline: 3px solid $lavender-light
@@ -416,3 +417,47 @@
     text-align: right
 
 
+.points
+  display: flex
+  flex-direction: row
+  gap: 16px
+  align-items: center
+  outline: 2px solid $yellow
+  border-radius: 16px
+  width: fit-content
+  padding: 4px 8px
+  background: $yellow
+  @include font-styles(18px, 600, 18px)
+  color: $indigo-darkness
+  position: relative
+  &::before
+    content: ''
+    position: absolute
+    top: 0
+    left: 0
+    height: 100%
+    width: 40px
+    background: $white
+    border-radius: 16px
+    z-index: 0
+  &__img
+    z-index: 1
+  &__add
+    color: $indigo
+    animation: animAddPoints ease-in 2s forwards
+    position: absolute
+    right: -8px
+
+@keyframes animAddPoints
+  0%
+    transform: translate(100%, 120%)
+    opacity: 0
+  20%
+    transform: translate(100%, 0)
+    opacity: 1
+  80%
+    transform: translate(100%, 0)
+    opacity: 1
+  100%
+    transform: translate(100%, -120%)
+    opacity: 0

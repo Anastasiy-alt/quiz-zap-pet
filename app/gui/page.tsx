@@ -5,13 +5,17 @@ import QuizCard from "@/components/quiz/card";
 import Life from "@/components/ui/life";
 import Timer from "@/components/ui/timer";
 import Progress from "@/components/ui/progress";
+import Points from "@/components/ui/points";
 
 export default function GuiPage() {
   return (
     <>
+      <Points total={290} />
       <Button text={'primary'}/>
+      <Button text={'primary'} disabled={true}/>
       <Button text={'primary'} link={'/'}/>
       <Button text={'secondary'} type={'sc'}/>
+      <Button text={'secondary'} type={'sc'} disabled={true}/>
       <Button text={'text'} type={'tx'}/>
       <Tag type={'ease'} />
       <Tag type={'medium'} />

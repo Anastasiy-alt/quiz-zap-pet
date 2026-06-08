@@ -10,7 +10,7 @@ export default function Progress({all, current}: Props) {
     <div className={stl.progress}>
       <div className={stl.progress__meter} style={{'--w': (current * 100) / all + '%'} as React.CSSProperties}></div>
       <div className={stl.progress__count}>
-        {current} / {all}
+        {current > all ? all : current} / {all}
       </div>
     </div>
   )
