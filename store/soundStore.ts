@@ -6,7 +6,7 @@ interface SoundType {
 }
 
 export const useSoundStore = create<SoundType>((set) => ({
-  on: false,
+  on: true,
 
   toggle: () => {
     set(state => ({on: !state.on}))
