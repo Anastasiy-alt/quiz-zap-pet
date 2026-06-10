@@ -1,6 +1,7 @@
 import stl from './quiz.module.sass'
 import Tag from "@/components/ui/tag";
 import Button from "@/components/ui/button";
+import Link from "next/link";
 
 interface Props {
   title: string
@@ -8,7 +9,7 @@ interface Props {
   subtitle: string
   link: string
   emoji: string
-  level: 'ease' | 'medium' | 'hard'
+  level: 'easy' | 'medium' | 'hard'
 }
 
 export default function QuizCard({title, questionsCount, subtitle, link, emoji, level}: Props) {
@@ -26,7 +27,7 @@ export default function QuizCard({title, questionsCount, subtitle, link, emoji, 
   }
 
   return (
-    <article className={stl.card}>
+    <Link href={link} className={stl.card}>
       <div className={stl.card__top}>
         <div className={stl.card__icon}>{emoji}</div>
         <Tag type={level}/>
@@ -40,8 +41,8 @@ export default function QuizCard({title, questionsCount, subtitle, link, emoji, 
           <p className={stl.card__countValue}>{questionsCount}</p>
           <p className={stl.card__countText}>{questionsCountText(questionsCount)}</p>
         </div>
-        <Button text={'Старт'} link={link} type={'pr'}/>
+        <Button text={'Старт'} type={'pr'}/>
       </div>
-    </article>
+    </Link>
   )
 }

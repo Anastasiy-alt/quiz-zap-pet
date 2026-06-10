@@ -78,6 +78,8 @@
   display: flex
   flex-direction: column
   gap: 32px
+  @include mobile
+    gap: 16px
   &__title
     @include font-styles(28px, 600)
     color: $indigo-darkness

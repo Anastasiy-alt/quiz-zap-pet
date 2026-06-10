@@ -12,6 +12,8 @@
   @include transitionMixin(background, outline, color, opacity)
   overflow: hidden
   text-decoration: none !important
+  text-align: center
+
   &_dis
     opacity: 0.5
     pointer-events: none !important
@@ -23,12 +25,16 @@
     flex-direction: row
     align-items: center
     gap: 4px
+    text-align: center
+    justify-content: center
 
     svg
       width: 20px
       height: 20px
+
   &_reverse span
     flex-direction: row-reverse
+
   &::after
     content: ''
     width: 10px
@@ -68,6 +74,8 @@
 
   &_tx
     color: $indigo
+    padding: 12px 0
+    line-height: 100% !important
 
 
 @include tablet
@@ -77,6 +85,9 @@
     align-items: center
     padding: 8px 20px
     @include font-styles(16px, 400, 20px)
+    &_tx
+      color: $indigo
+      padding: 8px 0
 
 @include hover
   .btn:hover::after
@@ -102,7 +113,6 @@
 
     span
       font-weight: 600
-      transform: scale(1.1)
 
 
 .tag
@@ -129,7 +139,7 @@
     background: $white
     z-index: -1
 
-  &_ease
+  &_easy
     color: $green
     outline-color: $green
 
@@ -152,7 +162,7 @@
 
 @include tablet
   .tag
-    @include font-styles(14px, 400)
+    @include font-styles(18px, 400)
     padding: 4px 8px
 
 
@@ -168,6 +178,7 @@
   cursor: pointer
   @include transitionMixin(background, color, outline, font-weight)
   align-items: center
+
   &__input
     position: absolute
     width: 1px
@@ -229,8 +240,10 @@
   outline-color: $red
   cursor: default
   pointer-events: none
+
   &:has(.rc__input:disabled)
     opacity: 1
+
   .rc
     &__inputCustom
       outline: 2px solid $red
@@ -250,8 +263,10 @@
   outline-color: $green
   cursor: default
   pointer-events: none
+
   &:has(.rc__input:disabled)
     opacity: 1
+
   .rc
     &__inputCustom
       outline: 2px solid $green
@@ -319,12 +334,6 @@
 @include tablet
   .life
     gap: 4px
-
-    &__item
-      width: 15px
-      height: 15px
-      min-width: 15px
-      min-height: 15px
 
 @keyframes heartPop
   0%
@@ -430,6 +439,9 @@
   @include font-styles(18px, 600, 18px)
   color: $indigo-darkness
   position: relative
+  @include mobile
+    @include font-styles(16px, 600, 16px)
+
   &::before
     content: ''
     position: absolute
@@ -440,8 +452,10 @@
     background: $white
     border-radius: 16px
     z-index: 0
+
   &__img
     z-index: 1
+
   &__add
     color: $indigo
     animation: animAddPoints ease-in 2s forwards

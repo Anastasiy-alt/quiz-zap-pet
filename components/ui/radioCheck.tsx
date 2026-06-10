@@ -22,7 +22,7 @@ export default function RadioCheck({text, checked = false, correct = false, disa
              name={name}
              value={value}
              disabled={disabled}
-             defaultChecked={checked || error || correct}/>
+             defaultChecked={checked}/>
       <span className={stl.rc__inputCustom}></span>
       <span className={stl.rc__block}>
         {

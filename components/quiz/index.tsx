@@ -6,55 +6,97 @@ import Life from "@/components/ui/life";
 import Timer from "@/components/ui/timer";
 import RadioCheck from "@/components/ui/radioCheck";
 import Button from "@/components/ui/button";
-import {useRef, useState} from "react";
+import {useEffect, useRef, useState} from "react";
 import Points from "@/components/ui/points";
 import Wand from '@/assets/icons/wand.svg'
 import Image from "next/image";
 
 export default function QuizApp({data}: { data: Quiz }) {
-  const TIMER = 30
-  const LIFES = 3
+  const TIMER = 10
+  const LIVES = 3
   const points = {
     correct: 10,
     fast: 5
   }
   const countQue = data.questions.length
-  const scoreMaxPoints = countQue * (points.fast + points.correct) // максимальное количество баллов
+  const scoreMaxPoints = countQue * (points.fast + points.correct)
 
+  const timerStopCalledRef = useRef(false)
   const formRef = useRef<HTMLFormElement>(null)
   const [currentQue, setCurrentQue] = useState(0)
-  const [lives, setLives] = useState(LIFES)
+  const [lives, setLives] = useState(LIVES)
   const [translateBtn, setTranslateBtn] = useState(false)
   const [disable, setDisable] = useState(false)
   const [checked, setChecked] = useState<string[]>([])
   const [timer, setTimer] = useState<number>(TIMER)
   const [timerStop, setTimerStop] = useState<number>(0)
   const [stop, setStop] = useState<boolean>(false)
-  const [score, setScore] = useState<number>(0) // счет
+  const [score, setScore] = useState<number>(0)
   const [changeForm, setChangeForm] = useState<boolean>(false)
 
-  const [scoreTimePoints, setScoreTimePoints] = useState(0) // очки за скорость
-  const [scoreCorrectPoints, setScoreCorrectPoints] = useState(0) // очки за правильные ответы
-  const [scoreTotalTime, setScoreTotalTime] = useState(0) // время прохождения квиза
+  const [scoreTimePoints, setScoreTimePoints] = useState(0)
+  const [scoreCorrectPoints, setScoreCorrectPoints] = useState(0)
+  const [scoreTotalTime, setScoreTotalTime] = useState(0)
   const [scoreResult, setScoreResult] = useState<{
     icon: string, title: string, score: number
   }>()
 
+  const isFinished = currentQue === countQue || lives <= 0
+
+  useEffect(() => {
+    if (currentQue === countQue) {
+      const percent = (score * 100) / scoreMaxPoints
+      setScoreResult(QUIZ_RESULT.find(i => i.score >= percent))
+    }
+  }, [currentQue])
+
+  useEffect(() => {
+    if (lives <= 0) {
+      const percent = (score * 100) / scoreMaxPoints
+      setScoreResult(QUIZ_RESULT.find(i => i.score >= percent))
+    }
+  }, [lives, score])
 
   const correctAnswer = (id: string) =>
-    (arraysEqual(data.questions[currentQue].correct, checked) && checked.includes(id)) || (data.questions[currentQue].correct.includes(id) && translateBtn)
+    (arraysEqual(data.questions[currentQue].correct, checked) && checked.includes(id)) ||
+    (data.questions[currentQue].correct.includes(id) && translateBtn)
 
-  const errorAnswer = (id: string) => !arraysEqual(data.questions[currentQue].correct, checked) && checked.includes(id)
+  const errorAnswer = (id: string) =>
+    !arraysEqual(data.questions[currentQue].correct, checked) && checked.includes(id)
 
+  const handleSubmitAnswer = () => {
+    if (!formRef.current) return
+
+    const formData = new FormData(formRef.current)
+    const selected = formData.getAll(data.questions[currentQue].id) as string[]
+    setChecked(selected)
+
+    const isCorrect = arraysEqual(data.questions[currentQue].correct, selected)
+
+    if (!isCorrect) {
+      setLives(l => l - 1)
+    }
+
+    if (isCorrect) {
+      setScoreCorrectPoints(s => s + points.correct)
+      if (timerStop <= 10) {
+        setScore(s => s + points.fast + points.correct)
+        setScoreTimePoints(s => s + points.fast)
+      } else {
+        setScore(s => s + points.correct)
+      }
+    }
+  }
 
   function handleAnswer() {
+    setStop(true)
     setTranslateBtn(true)
     setDisable(true)
     handleSubmitAnswer()
-    setStop(true)
   }
 
   function nextQue() {
+    timerStopCalledRef.current = false
     setCurrentQue(c => c + 1)
     setTranslateBtn(false)
     setDisable(false)
@@ -62,47 +104,20 @@ export default function QuizApp({data}: { data: Quiz }) {
     setTimer(TIMER)
     setStop(false)
     setChangeForm(false)
-    setTimeout(
-      () => {
-        if (currentQue === (countQue - 1)) {
-          const percent = (score * 100) / scoreMaxPoints
-          setScoreResult(QUIZ_RESULT.find(i => i.score >= percent))
-        }
-      }, 0)
-
-  }
-
-  const handleSubmitAnswer = () => {
-    if (!formRef.current) return
-    const formData = new FormData(formRef.current)
-    const selected = formData.getAll(data.questions[currentQue].id) as string[]
-    setChecked(selected)
-    if (!arraysEqual(data.questions[currentQue].correct, selected)) {
-      setLives(lives - 1)
-    }
-
-    if (arraysEqual(data.questions[currentQue].correct, selected)) {
-      setScoreCorrectPoints(scoreCorrectPoints + points.correct)
-      if (timerStop <= 10) {
-        setScore(score + points.fast + points.correct)
-        setScoreTimePoints(scoreTimePoints + points.fast)
-      } else {
-        setScore(score + points.correct)
-      }
-    }
   }
 
   function handleTimeout() {
     if (disable) return
-    setLives(lives - 1)
+    if (formRef.current) formRef.current.reset()
     handleAnswer()
     setChangeForm(true)
   }
 
   function handleStopTimer(i: number) {
+    if (timerStopCalledRef.current) return
+    timerStopCalledRef.current = true
     setTimerStop(i)
-    setScoreTotalTime(scoreTotalTime + i)
-    console.log('STOP', i, scoreTotalTime)
+    setScoreTotalTime(t => t + i)
   }
 
   const arraysEqual = (a: string[], b: string[]) =>
@@ -110,7 +125,7 @@ export default function QuizApp({data}: { data: Quiz }) {
 
   const restart = () => {
     setCurrentQue(0)
-    setLives(LIFES)
+    setLives(LIVES)
     setTranslateBtn(false)
     setDisable(false)
     setChecked([])
@@ -122,25 +137,29 @@ export default function QuizApp({data}: { data: Quiz }) {
     setScoreTimePoints(0)
     setScoreCorrectPoints(0)
     setScoreTotalTime(0)
+    setScoreResult(undefined)
   }
 
   return (
     <section className={stl.app}>
       <div className={stl.app__top}>
         <Progress all={countQue} current={currentQue + 1}/>
-
         <Timer keyId={currentQue}
-               stop={stop || currentQue === countQue}
+               stop={stop || isFinished}
                onStop={handleStopTimer}
                onTimeout={handleTimeout}
                time={timer}/>
-
         <Life count={lives}/>
       </div>
 
       {
-        currentQue === countQue ? (
+        isFinished ? (
           <div className={stl.finish}>
+            {lives <= 0 && (
+              <div className={stl.finish__lifes}>
+                💔 Квиз прерван — жизни закончились
+              </div>
+            )}
             <div className={stl.finish__main}>
               <p className={stl.finish__icon}>{scoreResult?.icon}</p>
               <p className={stl.finish__title}>{scoreResult?.title}</p>
@@ -148,12 +167,17 @@ export default function QuizApp({data}: { data: Quiz }) {
 
             <div className={stl.finish__stats}>
               <p className={stl.finish__statsText}>Время прохождения</p>
-              <p className={stl.finish__statsText}><span>{Math.floor(scoreTotalTime / 60)}:{scoreTotalTime % 60}s</span>
+              <p className={stl.finish__statsText}>
+                <span>
+                  {Math.floor(scoreTotalTime / 60)}:{scoreTotalTime % 60 >= 10 ? '' : '0'}{scoreTotalTime % 60}s
+                </span>
               </p>
             </div>
             <div className={stl.finish__stats}>
               <p className={stl.finish__statsText}>Правильных ответов</p>
-              <p className={stl.finish__statsText}><span>{scoreCorrectPoints / points.correct}</span> из {countQue}</p>
+              <p className={stl.finish__statsText}>
+                <span>{scoreCorrectPoints / points.correct}</span> из {countQue}
+              </p>
             </div>
             <div className={stl.finish__score}>
               <p className={stl.finish__scoreTitle}>Итоговый счёт</p>
@@ -167,9 +191,9 @@ export default function QuizApp({data}: { data: Quiz }) {
             </div>
             <div className={stl.finish__stats}>
               <p className={stl.finish__statsText}>Среднее время ответа на вопрос</p>
-              <p className={stl.finish__statsText}><span>
-                {(scoreTotalTime / countQue).toFixed(1)}s
-              </span></p>
+              <p className={stl.finish__statsText}>
+                <span>{(scoreTotalTime / (currentQue + 1)).toFixed(1)}s</span>
+              </p>
             </div>
           </div>
         ) : (
@@ -185,8 +209,7 @@ export default function QuizApp({data}: { data: Quiz }) {
                        height={100}
                        src={data.questions[currentQue].image.url}
                        alt={data.questions[currentQue].image.description}/>
-              )
-              }
+              )}
               {stop && (
                 <div className={stl.app__explanation}>
                   <Image className={stl.app__explanationImg} src={Wand} alt={'Объяснение ответа.'}/>
@@ -195,21 +218,19 @@ export default function QuizApp({data}: { data: Quiz }) {
               )}
             </div>
             <form ref={formRef}
-                  onChange={() => setChangeForm(true)}
+                  onInput={() => setChangeForm(true)}
                   className={stl.app__mainRight}>
-              {
-                data.questions[currentQue].options.map((i) => (
-                  <RadioCheck key={data.questions[currentQue].id + i.id}
-                              type={data.questions[currentQue].type}
-                              id={data.questions[currentQue].id + i.id}
-                              value={i.id}
-                              correct={correctAnswer(i.id)}
-                              error={errorAnswer(i.id)}
-                              disabled={disable}
-                              name={data.questions[currentQue].id}
-                              text={i.text}/>
-                ))
-              }
+              {data.questions[currentQue].options.map((i) => (
+                <RadioCheck key={data.questions[currentQue].id + i.id}
+                            type={data.questions[currentQue].type}
+                            id={data.questions[currentQue].id + i.id}
+                            value={i.id}
+                            correct={correctAnswer(i.id)}
+                            error={errorAnswer(i.id)}
+                            disabled={disable}
+                            name={data.questions[currentQue].id}
+                            text={i.text}/>
+              ))}
             </form>
           </div>
         )
@@ -217,12 +238,10 @@ export default function QuizApp({data}: { data: Quiz }) {
 
       <div className={stl.app__bottom}>
         {
-          currentQue === countQue ? (
+          isFinished ? (
             <div className={stl.app__bottomFinish}>
-              <Button link={'/'}
-                      text={'На главную'}/>
-              <Button action={restart}
-                      text={'Пройти заново'} type={'sc'}/>
+              <Button link={'/'} text={'На главную'}/>
+              <Button action={restart} text={'Пройти заново'} type={'sc'}/>
             </div>
           ) : (
             <>
@@ -245,11 +264,8 @@ export default function QuizApp({data}: { data: Quiz }) {
                 </div>
               </div>
             </>
-
           )
         }
-
-
       </div>
     </section>
   )

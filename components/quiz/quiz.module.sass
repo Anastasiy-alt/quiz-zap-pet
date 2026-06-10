@@ -12,6 +12,7 @@
   @include transitionMixin(background, outline)
   z-index: 1
   position: relative
+  text-decoration: none
 
   &::before
     content: ""
@@ -36,7 +37,6 @@
     @include transitionMixin(color)
 
   &__icon
-    @include transitionMixin(background, outline)
     outline: 2px solid $periwinkle
     display: flex
     flex-direction: column
@@ -48,7 +48,7 @@
     min-width: 50px
     border-radius: 8px
     background: $white
-    @include font-styles(24px)
+    @include font-styles(28px)
     position: relative
 
   &__top
@@ -137,7 +137,6 @@
 
 @include hover
   .card:hover
-    //background: $lavender-light
     outline-color: $indigo
 
     &::before
@@ -174,6 +173,10 @@
   display: flex
   flex-direction: column
   gap: 24px
+  @include tablet
+    gap: 16px
+  @include mobile
+    padding: 16px 12px
 
   &__image
     width: 100%
@@ -181,17 +184,24 @@
     object-fit: cover
     border-radius: 16px
     margin-bottom: auto
-
+    @include tablet
+      height: 150px
   &__top
     display: flex
     flex-direction: row
     align-items: center
     gap: 24px
+    @include mobile
+      flex-wrap: wrap
+      gap: 8px
 
   &__main
     display: grid
     grid-template-columns: repeat(2, 1fr)
     gap: 16px
+    @include mobile
+      grid-template-columns: 1fr
+      overflow: hidden
 
     &Left
       display: flex
@@ -199,6 +209,8 @@
       justify-content: space-between
       overflow: hidden
       gap: 16px
+      @include mobile
+        display: contents
 
     &Right
       display: flex
@@ -208,6 +220,8 @@
   &__title
     color: $indigo-darkness
     @include font-styles(24px, 400)
+    @include tablet
+      @include font-styles(20px, 400)
 
   &__explanation
     padding: 8px
@@ -221,14 +235,26 @@
     color: $indigo-darkness
     @include font-styles(20px, 400)
     animation: explanationShow 0.5s ease-in forwards
+    @include tablet
+      @include font-styles(16px, 400)
+      gap: 8px
+    @include mobile
+      order: 1
 
     &Img
       width: 32px
       height: 32px
+      min-width: 32px
+      min-height: 32px
       object-fit: contain
       transform-origin: bottom left
       transform: rotate(0deg)
       animation: explanationShowImg 1s ease-in forwards 0.4s
+      @include tablet
+        width: 24px
+        height: 24px
+        min-width: 24px
+        min-height: 24px
 
   &__bottom
     display: flex
@@ -243,6 +269,13 @@
       flex-direction: row
       gap: 16px
       margin-left: auto
+      @include mobile
+        flex-direction: column
+        margin: 0
+        width: 100%
+        gap: 8px
+        *
+          width: 100%
 
     &Out
       margin-left: auto
@@ -251,6 +284,8 @@
       flex-direction: row
       justify-content: flex-end
       overflow: hidden
+      @include tablet
+        max-width: 126px
 
     &In
       display: flex
@@ -261,6 +296,8 @@
 
       &_slide
         transform: translateX(160px)
+        @include tablet
+          transform: translateX(142px)
 
 @keyframes explanationShow
   0%
@@ -287,6 +324,32 @@
   gap: 12px
   grid-template-columns: repeat(2, 1fr)
   grid-template-rows: repeat(6, 1fr)
+  @include mobile
+    display: flex
+    flex-direction: column
+    gap: 8px
+  &__lifes
+    grid-column: span 2
+    outline: 2px solid $crimson
+    border-radius: 16px
+    padding: 16px
+    @include font-styles(22px, 600)
+    display: flex
+    flex-direction: column
+    justify-content: center
+    align-items: center
+    order: 3
+    background: rgba($crimson, 0.2)
+    color: $indigo-darkness
+    text-align: center
+    @include tablet
+      @include font-styles(18px, 600)
+      padding: 12px
+    @include mobile
+      @include font-styles(16px, 600)
+      padding: 8px
+      order: 0
+
 
   &__main
     display: flex
@@ -298,49 +361,86 @@
     border-radius: 16px
     padding: 16px
     grid-row: span 3
+    @include mobile
+      order: 1
+      flex-direction: row
+      padding: 12px
 
   &__icon
     @include font-styles(64px, 400)
+    @include tablet
+      @include font-styles(46px, 600)
 
   &__title
     @include font-styles(22px, 600)
     color: $indigo-dark
     text-align: center
+    @include tablet
+      @include font-styles(18px, 600)
 
   &__score
     display: flex
     flex-direction: column
     background: $indigo-dark
+    outline: 2px solid $indigo-dark
     padding: 16px
     border-radius: 16px
     grid-row: span 3
-
+    @include mobile
+      display: grid
+      justify-items: center
+      grid-template-columns: repeat(2, 1fr)
+      grid-template-rows: repeat(2, min-content)
+      align-items: center
+      height: fit-content
+      padding: 12px
+      gap: 4px
     &Title
       @include font-styles(18px, 400)
       color: $white
-
+      @include tablet
+        @include font-styles(14px, 400)
+      @include mobile
+        order: 1
     &Value
       color: $lavender
       @include font-styles(22px, 400)
-
+      @include tablet
+        @include font-styles(18px, 400)
+      @include mobile
+        order: 3
       span
         color: $white
         @include font-styles(52px, 700)
-
+        @include tablet
+          @include font-styles(32px, 700)
   &__count
     display: flex
     flex-direction: row
     gap: 8px
     margin-top: 16px
+    @include tablet
+      margin-top: 8px
+    @include mobile
+      grid-row: span 2
+      order: 2
+      flex-direction: column
+      margin-top: 0
 
     &Item
       border-radius: 16px
       padding: 4px 12px
       background: $periwinkle
       outline: 2px solid $lavender-light
-      @include font-styles(18px, 400)
+      @include font-styles(18px, 400, 18px)
       color: $white
-
+      @include tablet
+        padding: 4px 8px
+        @include font-styles(16px, 400, 16px)
+      @include mobile
+        text-align: center
+        border-radius: 8px
+        @include font-styles(14px, 400, 14px)
   &__stats
     display: flex
     flex-direction: row
@@ -349,20 +449,22 @@
     padding: 16px
     border-radius: 16px
     grid-row: span 2
+    gap: 8px
     outline: 2px solid $indigo-dark
     color: $indigo-dark
     background: $lavender
-    //&_bg
-    //  background: $indigo-dark
-    //  color: $white
-    //  span
-    //    color: $lavender
+    @include mobile
+      order: 2
+      padding: 12px
 
     &Text
       @include font-styles(20px, 600)
+      @include tablet
+        @include font-styles(16px, 600)
 
       span
         @include font-styles(36px, 600)
         color: $indigo-darkness
-
+        @include tablet
+          @include font-styles(28px, 600)
 

@@ -1,7 +1,7 @@
 import stl from './ui.module.sass'
 
 interface Props {
-  type: 'ease' | 'medium' | 'hard'
+  type: 'easy' | 'medium' | 'hard'
 }
 
 export default function Tag({type}: Props) {

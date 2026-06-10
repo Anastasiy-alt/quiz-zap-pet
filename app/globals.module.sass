@@ -16,16 +16,21 @@
   gap: 40px
   @include tablet
     padding: 16px 16px
+  @include mobile
+    gap: 24px
 
 .section
   display: flex
   flex-direction: column
   gap: 32px
   &__header
-    display: flex
-    flex-direction: row
+    display: grid
+    grid-template-columns: 1fr min-content
+    grid-template-rows: min-content min-content
     align-items: center
     justify-content: space-between
   &__title
     color: $indigo-darkness
     @include font-styles(28px, 600, 40px)
+    grid-column: span 2
+
