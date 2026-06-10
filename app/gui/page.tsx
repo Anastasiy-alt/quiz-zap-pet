@@ -17,7 +17,7 @@ export default function GuiPage() {
       <Button text={'secondary'} type={'sc'}/>
       <Button text={'secondary'} type={'sc'} disabled={true}/>
       <Button text={'text'} type={'tx'}/>
-      <Tag type={'ease'} />
+      <Tag type={'easy'} />
       <Tag type={'medium'} />
       <Tag type={'hard'} />
       <Progress all={15} current={10} />
