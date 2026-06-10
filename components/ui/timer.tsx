@@ -2,6 +2,8 @@
 import stl from './ui.module.sass'
 import {useEffect, useRef, useState} from "react";
 
+import {useSound} from "@/hooks/useSound";
+
 interface Props {
   time?: number
   keyId?: number | string
@@ -14,6 +16,7 @@ export default function Timer({time = 60, keyId, stop, onTimeout, onStop}: Props
   const [timeLeft, setTimeLeft] = useState(time);
   const [rotate, setRotate] = useState(360);
   const rotateStep = 360 / time
+  const clockSound = useSound('/sounds/clock.mp3')
 
   const onTimeoutRef = useRef(onTimeout)
   const onStopRef = useRef(onStop)
@@ -39,6 +42,7 @@ export default function Timer({time = 60, keyId, stop, onTimeout, onStop}: Props
 
     if (stop) {
       setTimeLeft(prev => {
+        clockSound.stop()
         setTimeout(() => onStopRef.current?.(time - prev), 0)
         return prev
       })
@@ -47,7 +51,12 @@ export default function Timer({time = 60, keyId, stop, onTimeout, onStop}: Props
 
     const interval = setInterval(() => {
       setTimeLeft(prev => {
+        if (prev === 5) {
+          clockSound.play()
+        }
+
         if (prev <= 1) {
+          clockSound.stop()
           clearInterval(interval)
           setRotate(0)
           if (!calledRef.current) {

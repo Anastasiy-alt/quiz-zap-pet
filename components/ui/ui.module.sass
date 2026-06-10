@@ -475,3 +475,31 @@
   100%
     transform: translate(100%, -120%)
     opacity: 0
+
+.sound
+  display: block
+  position: relative
+  cursor: pointer
+  width: 30px
+  height: 30px
+  &__icon
+    position: absolute
+    top: 0
+    left: 0
+    @include transitionMixin()
+
+  .iconEnter img
+    opacity: 0
+    transform: scale(0.6) rotate(-60deg)
+
+  .iconEnterActive img
+    opacity: 1
+    transform: scale(1) rotate(0deg)
+
+  .iconExit img
+    opacity: 1
+    transform: scale(1) rotate(0deg)
+
+  .iconExitActive img
+    opacity: 0
+    transform: scale(0.6) rotate(60deg)

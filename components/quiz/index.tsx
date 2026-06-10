@@ -10,6 +10,7 @@ import {useEffect, useRef, useState} from "react";
 import Points from "@/components/ui/points";
 import Wand from '@/assets/icons/wand.svg'
 import Image from "next/image";
+import {useSound} from "@/hooks/useSound";
 
 export default function QuizApp({data}: { data: Quiz }) {
   const TIMER = 10
@@ -20,6 +21,9 @@ export default function QuizApp({data}: { data: Quiz }) {
   }
   const countQue = data.questions.length
   const scoreMaxPoints = countQue * (points.fast + points.correct)
+  const popSound = useSound('/sounds/pop.mp3')
+  const correctSound = useSound('/sounds/correct.mp3')
+  const overSound = useSound('/sounds/over.mp3')
 
   const timerStopCalledRef = useRef(false)
   const formRef = useRef<HTMLFormElement>(null)
@@ -42,6 +46,10 @@ export default function QuizApp({data}: { data: Quiz }) {
   }>()
 
   const isFinished = currentQue === countQue || lives <= 0
+
+  useEffect(() => {
+    if (isFinished) overSound.play()
+  }, [isFinished])
 
   useEffect(() => {
     if (currentQue === countQue) {
@@ -75,9 +83,11 @@ export default function QuizApp({data}: { data: Quiz }) {
 
     if (!isCorrect) {
       setLives(l => l - 1)
+      popSound.play()
     }
 
     if (isCorrect) {
+      correctSound.play()
       setScoreCorrectPoints(s => s + points.correct)
       if (timerStop <= 10) {
         setScore(s => s + points.fast + points.correct)
@@ -250,7 +260,7 @@ export default function QuizApp({data}: { data: Quiz }) {
                 <div className={`${stl.app__bottomIn} ${translateBtn ? stl.app__bottomIn_slide : ''}`}>
                   <Button action={changeForm ? nextQue : undefined}
                           disabled={!changeForm}
-                          text={'Дальше'}
+                          text={!(data.questions.length === currentQue + 1) ? 'Дальше' : 'Финиш'}
                           type={"tx"}
                           iconRight={true}>
                     <svg xmlns="http://www.w3.org/2000/svg" height="100%" viewBox="0 -960 960 960" width="100%"
