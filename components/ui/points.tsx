@@ -17,7 +17,7 @@ export default function Points({ total }: Props) {
     const earned = total - prevTotal.current
     prevTotal.current = total
 
-    if (earned <= 0) return
+    if (earned === 0) return
 
     setDiff(earned)
     setVisible(true)
@@ -31,7 +31,7 @@ export default function Points({ total }: Props) {
       <Image className={stl.points__img} src={Light} alt={'Молния.'} />
       <p className={stl.points__total}>{total}</p>
       {visible && (
-        <p className={stl.points__add}>+{diff}</p>
+        <p className={stl.points__add}>{diff > 0 ? '+' : ''}{diff}</p>
       )}
     </div>
   )
