@@ -85,6 +85,7 @@
     align-items: center
     padding: 8px 20px
     @include font-styles(16px, 400, 20px)
+
     &_tx
       color: $indigo
       padding: 8px 0
@@ -482,6 +483,7 @@
   cursor: pointer
   width: 30px
   height: 30px
+
   &__icon
     position: absolute
     top: 0
@@ -503,3 +505,43 @@
   .iconExitActive img
     opacity: 0
     transform: scale(0.6) rotate(60deg)
+
+
+.tabs
+  background: $lavender
+  border: 1px solid $indigo
+  border-radius: 12px
+  padding: 4px
+  position: relative
+  display: flex
+
+  &__slider
+    position: absolute
+    top: 4px
+    bottom: 4px
+    background: $lavender-light
+    border-radius: 8px
+    @include transitionMixin()
+    z-index: 0
+    pointer-events: none
+    left: 4px
+    width: calc(50% - 4px)
+
+  &__tab
+    flex: 1
+    padding: 8px 16px
+    border: none
+    background: transparent
+    @include font-styles(18px, 600)
+    cursor: pointer
+    position: relative
+    z-index: 1
+    border-radius: 8px
+    color: $indigo
+    @include transitionMixin(color)
+    white-space: nowrap
+    @include tablet
+      @include font-styles(16px, 600)
+
+    &_active
+      color: $indigo-dark

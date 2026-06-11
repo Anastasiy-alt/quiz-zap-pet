@@ -1,0 +1,249 @@
+.rule
+  display: flex
+  flex-direction: column
+  gap: 32px
+  padding: 24px
+  outline: 4px solid $lavender-light
+  border-radius: 24px
+  background-color: $white
+  @include mobile
+    padding: 16px
+    gap: 16px
+    border-radius: 16px
+
+  &__top
+    display: flex
+    flex-direction: row
+    gap: 8px
+    align-items: center
+
+  &__title
+    @include font-styles(24px, 600)
+    color: $indigo-darkness
+    @include mobile
+      @include font-styles(20px, 600)
+
+.steps
+  display: flex
+  flex-direction: column
+  gap: 24px
+  list-style: none
+  @include mobile
+    gap: 16px
+
+.step
+  display: flex
+  flex-direction: row
+  gap: 16px
+  align-items: flex-start
+
+  &__img
+    padding: 8px
+    display: flex
+    flex-direction: column
+    align-items: center
+    justify-content: center
+    border-radius: 100%
+    width: fit-content
+    height: fit-content
+    background-color: $white
+    outline: 2px solid $lavender-light
+    position: relative
+
+    &::after
+      content: ''
+      position: absolute
+      bottom: -16px
+      left: 50%
+      transform: translateX(calc(-50%))
+      width: 4px
+      background-color: $lavender-light
+      height: 16px
+      border-radius: 4px
+
+    img
+      object-fit: contain
+      display: block
+
+  &:last-child .step__img
+    outline-color: $yellow
+
+    &::after
+      background-color: $yellow
+
+  &__block
+    display: flex
+    flex-direction: column
+    gap: 4px
+
+  &__title
+    @include font-styles(20px, 600)
+    color: $indigo-darkness
+    @include mobile
+      @include font-styles(18px, 600)
+
+  &__subtitle
+    @include font-styles(18px, 400)
+    color: $indigo-dark
+    @include mobile
+      @include font-styles(16px, 400)
+
+.modes
+  display: flex
+  flex-direction: row
+  gap: 16px
+  @include mobile
+    flex-direction: column
+
+.mode
+  padding: 24px 32px 32px
+  display: flex
+  flex-direction: column
+  gap: 24px
+  border-radius: 24px
+  width: 100%
+  @include mobile
+    padding: 16px 24px 24px
+
+  &_easy
+    outline: 2px solid $green
+    background-color: rgba($green-light, 0.2)
+
+    svg path
+      color: $green
+
+    .mode__title
+      color: $green
+
+  &_hard
+    outline: 2px solid $red
+    background-color: rgba($red-light, 0.2)
+
+    .mode__title
+      color: $red
+
+    svg path
+      color: $red
+
+  &__title
+    @include font-styles(22px, 600)
+    @include mobile
+      @include font-styles(18px, 600)
+
+  &__list
+    background: $white
+    border-radius: 4px
+    outline: 16px solid $white
+    list-style: none
+    display: flex
+    flex-direction: column
+    gap: 8px
+
+  &__item
+    @include font-styles(20px, 500)
+    color: $indigo-darkness
+    display: flex
+    flex-direction: row
+    align-items: center
+    gap: 8px
+    @include mobile
+      @include font-styles(16px, 500)
+
+.results
+  display: grid
+  grid-template-columns: repeat(3, 1fr)
+  gap: 16px
+  @include mobile
+    grid-template-columns: repeat(2, 1fr)
+    gap: 12px
+
+.result
+  padding: 16px 8px
+  border-radius: 24px
+  outline: 2px solid $periwinkle
+  display: flex
+  flex-direction: column
+  align-items: center
+  gap: 8px
+  background: $lavender
+  @include mobile
+    padding: 8px
+
+  &__icon
+    @include font-styles(40px, 400, 40px)
+    @include mobile
+      @include font-styles(32px, 400, 32px)
+
+  &__range
+    @include font-styles(18px, 600)
+    color: $indigo-dark
+    text-align: center
+    @include mobile
+      @include font-styles(16px, 600)
+
+  &__title
+    @include font-styles(20px, 400)
+    color: $indigo-darkness
+    text-align: center
+    @include mobile
+      @include font-styles(18px, 400)
+
+.points
+  display: flex
+  flex-direction: column
+  gap: 16px
+
+  &__list
+    list-style: none
+    display: flex
+    flex-direction: column
+    gap: 12px
+
+  &__info
+    outline: 2px solid $lavender-light
+    border-radius: 8px
+    padding: 8px
+    color: $indigo-darkness
+    margin-top: 8px
+    text-align: center
+    @include font-styles(18px, 400)
+    @include mobile
+      @include font-styles(16px, 400)
+
+.point
+  display: flex
+  flex-direction: row
+  align-items: center
+  padding: 12px
+  border-radius: 8px
+  outline: 2px solid $indigo
+  @include font-styles(20px, 500)
+  color: $indigo-darkness
+  @include mobile
+    @include font-styles(18px, 500)
+
+  &_correct
+    outline-color: $green
+    background: rgba($green-light, 0.2)
+    color: $green
+
+  &_fast
+    outline-color: $red-light
+    background: rgba($yellow, 0.2)
+    color: $red-light
+
+  &_error
+    outline-color: $red
+    background: rgba($red, 0.2)
+    color: $red
+
+  &_time
+    outline-color: $indigo-dark
+    background: rgba($lavender-light, 0.2)
+    color: $indigo-dark
+
+  span
+    margin-left: auto
+    @include font-styles(20px, 600)
+    @include mobile
+      @include font-styles(18px, 600)
