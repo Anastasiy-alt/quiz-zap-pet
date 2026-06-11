@@ -271,9 +271,9 @@ export const QUIZZES: Quiz[] = [
         options: [
           { id: "a", text: "Птерозавры" },
           { id: "b", text: "Плезиозавры" },
-          { id: "c", text: "Аллозавр" },
+          { id: "c", text: "Аллозавры" },
           { id: "d", text: "Мозазавры" },
-          { id: "e", text: "Анкилозавр" },
+          { id: "e", text: "Пивозавры" },
         ],
         correct: ["a", "b", "d"],
         explanation: "Птерозавры (летающие рептилии), плезиозавры и мозазавры (морские рептилии) — не динозавры, хотя и жили в Мезозое.",
@@ -763,7 +763,7 @@ export const QUIZZES: Quiz[] = [
     id: "weather",
     title: "Погодные явления",
     description: "Насколько хорошо ты разбираешься в атмосферных явлениях и погоде?",
-    emoji: "🌤️",
+    emoji: "🌈",
     level: 'easy',
     questions: [
       {
@@ -977,7 +977,7 @@ export const QUIZZES: Quiz[] = [
     title: "Ударения в русском языке",
     description: "ЗвОнит или звонИт? Проверь, не путаешь ли ты ударения в словах, которые слышишь каждый день.",
     emoji: "🗣️",
-    level: "easy",
+    level: "medium",
     questions: [
       {
         id: "st_1",

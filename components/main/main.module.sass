@@ -15,6 +15,7 @@
     padding: 64px 24px
   @include mobile
     padding: 32px 24px
+
   &__atom
     position: absolute
     top: 50%
@@ -28,6 +29,7 @@
       bottom: 32px
     @include mobile
       display: none
+
   &__subtitle
     @include font-styles(20px, 400)
     color: $indigo-darkness
@@ -39,6 +41,7 @@
     z-index: 2
     @include tablet
       @include font-styles(16px, 400)
+
   &__title
     @include font-styles(36px, 600, 46px)
     display: flex
@@ -47,18 +50,22 @@
     z-index: 2
     @include tablet
       @include font-styles(24px, 600, 34px)
+
     &Out
       overflow: hidden
+
       &:nth-child(1) .hero__titleIn
         animation: titleAnim 1s forwards ease 0.5s
+
       &:nth-child(2) .hero__titleIn
         animation: titleAnim 1s forwards ease 1.5s
+
       &:nth-child(3) .hero__titleIn
         animation: titleAnim 1s forwards ease 2.5s
+
     &In
       transform: translateY(100%)
       display: block
-
 
 
 @keyframes titleAnim
@@ -80,9 +87,11 @@
   gap: 32px
   @include mobile
     gap: 16px
+
   &__title
     @include font-styles(28px, 600)
     color: $indigo-darkness
+
   &__grid
     display: grid
     grid-template-columns: repeat(3, 1fr)
@@ -91,10 +100,12 @@
       grid-template-columns: repeat(2, 1fr)
     @include mobile
       grid-template-columns: 1fr
+
 .atom
   position: relative
   width: 320px
   height: 320px
+
   &__nucleus
     position: absolute
     top: 50%
@@ -110,6 +121,7 @@
     border-radius: 100%
     outline: 10px solid $white
     outline-offset: -2px
+
   &__orbit
     position: absolute
     top: 50%
@@ -117,15 +129,19 @@
     transform: translate(-50%, -50%)
     border-radius: 50%
     border: 2px dashed $lavender-light
+
     &:nth-child(2)
       width: 160px
       height: 160px
+
     &:nth-child(3)
       width: 240px
       height: 240px
+
     &:nth-child(4)
       width: 100%
       height: 100%
+
   &__particle
     position: absolute
     top: 50%
@@ -133,6 +149,7 @@
     font-size: 36px
     line-height: 1
     transform-origin: center
+
   &__orb1
     animation: spin1 8s linear infinite
 
@@ -145,9 +162,9 @@
 
 @keyframes spin1
   from
-    transform: translate(-50%, -50%) rotate(0deg) translate(80px)  rotate(0deg)
+    transform: translate(-50%, -50%) rotate(0deg) translate(80px) rotate(0deg)
   to
-    transform: translate(-50%, -50%) rotate(360deg) translate(80px)  rotate(-360deg)
+    transform: translate(-50%, -50%) rotate(360deg) translate(80px) rotate(-360deg)
 
 @keyframes spin2
   from
@@ -160,11 +177,13 @@
     transform: translate(-50%, -50%) rotate(0deg) translate(160px) rotate(0deg)
   to
     transform: translate(-50%, -50%) rotate(360deg) translate(160px) rotate(-360deg)
+
 @include laptop
   .atom
     position: relative
     width: 280px
     height: 280px
+
     &__orbit
       &:nth-child(3)
         width: 220px
@@ -181,17 +200,21 @@
       transform: translate(-50%, -50%) rotate(0deg) translate(140px) rotate(0deg)
     to
       transform: translate(-50%, -50%) rotate(360deg) translate(140px) rotate(-360deg)
+
 @include tablet
   .atom
     position: relative
     width: 240px
     height: 240px
+
     &__particle
       font-size: 24px
+
     &__orbit
       &:nth-child(3)
         width: 180px
         height: 180px
+
       &:nth-child(2)
         width: 120px
         height: 120px
@@ -211,3 +234,71 @@
       transform: translate(-50%, -50%) rotate(0deg) translate(120px) rotate(0deg)
     to
       transform: translate(-50%, -50%) rotate(360deg) translate(120px) rotate(-360deg)
+
+.cta
+  display: flex
+  flex-direction: row
+  align-items: center
+  padding: 32px
+  border-radius: 32px
+  outline: 4px solid $periwinkle
+  background: $white
+  gap: 24px
+  @include tablet
+    padding: 32px 24px
+    gap: 16px
+  @include mobile
+    flex-direction: column
+    padding: 16px 32px
+
+  &__icon
+    outline: 2px solid $periwinkle
+    display: flex
+    flex-direction: column
+    align-items: center
+    justify-content: center
+    width: 50px
+    height: 50px
+    min-height: 50px
+    min-width: 50px
+    border-radius: 8px
+    background: $white
+    @include font-styles(28px)
+    z-index: 1
+
+    &Block
+      position: relative
+      z-index: 1
+
+      &::before
+        content: ''
+        position: absolute
+        bottom: -8px
+        right: -8px
+        background: $lavender-light
+        border-radius: 8px
+        width: 100%
+        height: 100%
+        z-index: -1
+
+  &__block
+    width: auto
+    margin-right: auto
+    color: $indigo-darkness
+    flex: 1
+    @include mobile
+      margin: 0 auto
+
+  &__title
+    @include font-styles(24px, 600)
+    @include tablet
+      @include font-styles(20px, 600)
+    @include mobile
+      text-align: center
+
+  &__subtitle
+    @include font-styles(18px, 400)
+    @include tablet
+      @include font-styles(16px, 400)
+    @include mobile
+      text-align: center
