@@ -1,0 +1,58 @@
+.gui
+  display: flex
+  flex-direction: column
+  gap: 48px
+  padding-bottom: 64px
+
+  &__title
+    @include font-styles(40px, 700)
+    color: $indigo-darkness
+    @include tablet
+      @include font-styles(28px, 700)
+
+.section
+  display: flex
+  flex-direction: column
+  gap: 16px
+
+  &__label
+    @include font-styles(12px, 600)
+    color: $periwinkle
+    text-transform: uppercase
+    letter-spacing: 0.1em
+    padding-bottom: 12px
+    border-bottom: 1px solid $lavender
+
+  &__body
+    display: flex
+    flex-direction: column
+    gap: 8px
+
+.row
+  display: flex
+  flex-direction: row
+  flex-wrap: wrap
+  align-items: center
+  gap: 12px
+
+.col
+  display: flex
+  flex-direction: column
+  gap: 8px
+  width: 100%
+
+.rcGrid
+  display: grid
+  grid-template-columns: 1fr 1fr
+  gap: 8px
+  @include mobile
+    grid-template-columns: 1fr
+
+.cards
+  display: grid
+  grid-template-columns: repeat(3, minmax(0, 1fr))
+  gap: 16px
+  @include tablet
+    grid-template-columns: repeat(2, minmax(0, 1fr))
+  @include mobile
+    grid-template-columns: 1fr
