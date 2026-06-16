@@ -15,6 +15,8 @@ import {questionsCountText} from "@/const/questionsCountText";
 import Thunder from '@/assets/icons/thunder.svg'
 import Heart from '@/assets/icons/heart-fill.svg'
 import Clock from '@/assets/icons/clock.svg'
+import Modal from "@/components/ui/modal";
+import CreateRoom from "@/components/quiz/multi/createRoom";
 
 export default function QuizApp({data}: { data: Quiz }) {
   const points = [
@@ -35,6 +37,15 @@ export default function QuizApp({data}: { data: Quiz }) {
       time: 30,
       lives: 5,
       fastTime: 15
+    },
+    {
+      level: 'multi',
+      correct: 10,
+      fast: 5,
+      error: 0,
+      time: 60,
+      lives: null,
+      fastTime: 15
     }
   ]
   const countQue = data.questions.length
@@ -47,7 +58,7 @@ export default function QuizApp({data}: { data: Quiz }) {
   const formRef = useRef<HTMLFormElement>(null)
   const [mode, setMode] = useState(points[1])
   const [currentQue, setCurrentQue] = useState(0)
-  const [lives, setLives] = useState(mode.lives)
+  const [lives, setLives] = useState<number | null>(mode.lives)
   const [translateBtn, setTranslateBtn] = useState(false)
   const [disable, setDisable] = useState(false)
   const [checked, setChecked] = useState<string[]>([])
@@ -57,6 +68,7 @@ export default function QuizApp({data}: { data: Quiz }) {
   const [score, setScore] = useState<number>(0)
   const [changeForm, setChangeForm] = useState<boolean>(false)
   const [start, setStart] = useState(true)
+  const [open, setOpen] = useState(false);
 
   const scoreMaxPoints = countQue * (mode.fast + mode.correct)
 
@@ -67,7 +79,7 @@ export default function QuizApp({data}: { data: Quiz }) {
     icon: string, title: string, score: number
   }>()
 
-  const isFinished = currentQue === countQue || lives <= 0
+  const isFinished = currentQue === countQue || (lives !== null && lives <= 0)
 
   useEffect(() => {
     setLives(mode.lives)
@@ -86,7 +98,7 @@ export default function QuizApp({data}: { data: Quiz }) {
   }, [currentQue])
 
   useEffect(() => {
-    if (lives <= 0) {
+    if (lives !== null && lives <= 0) {
       const percent = (score * 100) / scoreMaxPoints
       setScoreResult(QUIZ_RESULT.find(i => i.score >= percent))
     }
@@ -109,8 +121,14 @@ export default function QuizApp({data}: { data: Quiz }) {
     const isCorrect = arraysEqual(data.questions[currentQue].correct, selected)
 
     if (!isCorrect) {
-      setLives(l => l - 1)
-      popSound.play()
+      setLives(l => {
+        if (l !== null) {
+          popSound.play()
+          return l - 1;
+        } else {
+          return l
+        }
+      })
     }
 
     if (isCorrect) {
@@ -202,7 +220,12 @@ export default function QuizApp({data}: { data: Quiz }) {
                  onStop={handleStopTimer}
                  onTimeout={handleTimeout}
                  time={timer}/>
-          <Life count={lives} all={mode.lives}/></div>
+          {
+            (mode.lives !== null && lives !== null) && (
+              <Life count={lives} all={mode.lives}/>
+            )
+          }
+        </div>
       )}
 
       {start ? (
@@ -261,6 +284,12 @@ export default function QuizApp({data}: { data: Quiz }) {
                           name={'mode-type'}
                           text={'Хардкор'}
                           description={'3 жизни, 15s на ответ, 15 баллов за ответ и -5 баллов за ошибку'}/>
+              <RadioCheck type={"radio"}
+                          id={'mode-multi'}
+                          value={'multi'}
+                          name={'mode-type'}
+                          text={'Мультиплеер'}
+                          description={'Игровая комната, 60s на ответ, 10 баллов за ответ'}/>
             </div>
           </form>
         </div>
@@ -269,7 +298,7 @@ export default function QuizApp({data}: { data: Quiz }) {
           {
             isFinished ? (
               <div className={stl.finish}>
-                {lives <= 0 && (
+                {(lives !== null && lives <= 0) && (
                   <div className={stl.finish__lifes}>
                     💔 Квиз прерван — жизни закончились
                   </div>
@@ -352,12 +381,18 @@ export default function QuizApp({data}: { data: Quiz }) {
         </>
       )}
 
-
       <div className={stl.app__bottom}>
         {start ? (
           <>
             <Button text={'Правила'} link={'/rules'} type={'sc'}/>
-            <Button text={'Погнали'} action={handleStart}/>
+            {
+              mode.level === 'multi' ? (
+                <Button text={'Создать комнату'} action={() => setOpen(true)}/>
+              ) : (
+                <Button text={'Погнали'} action={handleStart}/>
+              )
+            }
+
           </>
         ) : (
           <>{
@@ -393,6 +428,13 @@ export default function QuizApp({data}: { data: Quiz }) {
         )}
 
       </div>
+
+      <Modal open={open}
+             close={() => setOpen(false)}>
+        <div>
+          <CreateRoom/>
+        </div>
+      </Modal>
     </section>
   )
 }

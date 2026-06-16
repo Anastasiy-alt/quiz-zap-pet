@@ -12,6 +12,7 @@ import Points from '@/components/ui/points'
 import BackBtn from '@/components/ui/backBtn'
 import Sound from '@/components/ui/sound'
 import Tabs from '@/components/ui/tabs'
+import EmojiPicker from '@/components/ui/emojiPicker'
 import stl from './gui.module.sass'
 
 const TABS = [
@@ -34,6 +35,7 @@ function Row({ children }: { children: ReactNode }) {
 
 export default function GuiPage() {
   const [tab, setTab] = useState('easy')
+  const [emoji, setEmoji] = useState('😀')
 
   return (
     <div className={stl.gui}>
@@ -110,6 +112,10 @@ export default function GuiPage() {
           <RadioCheck text="Отключён" type="checkbox" id="c4" name="demo-cd" disabled
                       description="Описание варианта ответа" />
         </div>
+      </Section>
+
+      <Section title="Emoji Picker">
+        <EmojiPicker value={emoji} onChange={setEmoji} />
       </Section>
 
       <Section title="Карточка квиза">

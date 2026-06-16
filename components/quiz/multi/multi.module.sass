@@ -1,0 +1,34 @@
+.room
+  display: flex
+  flex-direction: column
+  gap: 32px
+  align-items: center
+  @include mobile
+    gap: 16px
+
+  &__header
+    text-align: center
+    display: flex
+    flex-direction: column
+    gap: 6px
+  &__emoji
+    @include font-styles(44px)
+
+  &__title
+    @include font-styles(20px, 600)
+    color: $indigo-darkness
+
+  &__sub
+    @include font-styles(16px, 600)
+    color: $periwinkle
+  &__form
+    display: grid
+    grid-template-columns: min-content 1fr
+    gap: 0 16px
+    width: 100%
+    align-items: end
+    &Rand
+      grid-column-start: 2
+    @include mobile
+      gap: 0 8px
+      margin-bottom: 16px

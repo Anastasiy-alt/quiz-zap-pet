@@ -1,0 +1,191 @@
+.room
+  display: flex
+  flex-direction: column
+  gap: 32px
+  padding: 24px
+  outline: 4px solid $lavender-light
+  border-radius: 24px
+  background-color: $white
+  @include mobile
+    padding: 16px
+    gap: 16px
+    border-radius: 16px
+
+  &__title
+    text-align: center
+    @include font-styles(24px, 600)
+    color: $indigo-darkness
+    @include mobile
+      @include font-styles(20px, 600)
+
+  &__top
+    display: flex
+    flex-direction: column
+    gap: 4px
+    align-items: center
+    position: relative
+
+  &__chips
+    padding: 4px 8px
+    background: $lavender
+    border: 1px solid $indigo-dark
+    border-radius: 8px
+    @include font-styles(14px, 500)
+    color: $indigo-darkness
+    position: absolute
+    bottom: 0
+    left: 50%
+    width: fit-content
+    white-space: nowrap
+    transform: translateX(-50%) translateY(-10px)
+    opacity: 0
+
+    &_show
+      animation: chipsCopy 3s forwards
+
+  &__code
+    @include font-styles(48px, 700)
+    color: $indigo
+    cursor: pointer
+    @include tablet
+      @include font-styles(40px, 700)
+    @include mobile
+      @include font-styles(36px, 700)
+
+  &__sub
+    @include font-styles(14px, 400)
+    color: $indigo-darkness
+    text-align: center
+
+  &__hr
+    height: 2px
+    border-radius: 2px
+    background: $lavender
+
+  &__emoji
+    display: grid
+    grid-template-columns: min-content 1fr
+    gap: 0 16px
+    width: 100%
+    align-items: end
+    &Rand
+      grid-column-start: 2
+    @include mobile
+      gap: 0 8px
+      margin-bottom: 16px
+
+  &__codeInput
+    width: fit-content
+    margin: 0 auto
+    align-items: center
+
+    input
+      @include font-styles(22px, 600)
+      text-align: center
+      letter-spacing: 8px
+
+  &__players
+    display: flex
+    flex-direction: column
+    gap: 12px
+
+    &Title
+      @include font-styles(18px, 600)
+      color: $indigo-darkness
+      @include mobile
+        @include font-styles(16px, 600)
+
+      span
+        display: inline-flex
+        flex-direction: column
+        align-items: center
+        justify-content: center
+        min-width: 24px
+        min-height: 24px
+        @include font-styles(14px, 600, 14px)
+        background: $lavender
+        color: $indigo-dark
+        border-radius: 24px
+        padding: 4px
+
+    &List
+      list-style: none
+      display: flex
+      flex-direction: column
+      gap: 8px
+
+  &__footer
+    display: flex
+    flex-direction: column
+    gap: 8px
+    align-items: center
+
+.player
+  display: flex
+  align-items: center
+  gap: 12px
+  padding: 8px 12px
+  background: $lavender
+  border-radius: 12px
+  border: 2px solid $periwinkle
+  @include mobile
+    padding: 8px
+    gap: 8px
+
+  &__avatar
+    width: 40px
+    height: 40px
+    border-radius: 50%
+    background: $white
+    outline: 2px solid $periwinkle
+    @include font-styles(24px)
+    display: flex
+    align-items: center
+    justify-content: center
+    flex-shrink: 0
+
+  &__name
+    @include font-styles(18px, 500)
+    color: $indigo-darkness
+    flex: 1
+    @include mobile
+      @include font-styles(16px, 500)
+
+  &__badge
+    @include font-styles(16px, 600)
+    color: $indigo-dark
+    background: $white
+    padding: 4px 12px
+    border-radius: 99px
+    @include mobile
+      @include font-styles(14px, 600)
+      padding: 4px 8px
+
+.loading
+  text-align: center
+  padding: 48px
+  @include font-styles(18px, 500)
+  color: $indigo-darkness
+
+.error
+  text-align: center
+  padding: 8px
+  @include font-styles(18px, 500)
+  color: $red
+  border: 2px solid $red
+  border-radius: 8px
+  background: rgba($red-light, 0.2)
+
+@keyframes chipsCopy
+  0%
+    opacity: 0
+    transform: translateX(-50%) translateY(-10px)
+  20%
+    opacity: 1
+    transform: translateX(-50%)
+  80%
+    opacity: 1
+    transform: translateX(-50%)
+  100%
+    opacity: 0
+    transform: translateX(-50%) translateY(10px)
