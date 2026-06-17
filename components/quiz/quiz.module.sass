@@ -229,13 +229,13 @@
     padding: 8px
     border-left: 4px solid $indigo
     border-radius: 8px
-    background: rgba($lavender-light, 0.7)
+    background: $lavender
     display: flex
     flex-direction: row
     gap: 16px
     align-items: flex-start
     color: $indigo-darkness
-    @include font-styles(20px, 400)
+    @include font-styles(18px, 400)
     animation: explanationShow 0.5s ease-in forwards
     @include tablet
       @include font-styles(16px, 400)
@@ -293,6 +293,7 @@
       display: flex
       flex-direction: row
       gap: 16px
+      align-items: center
       width: fit-content
       @include transitionMixin(transform)
 

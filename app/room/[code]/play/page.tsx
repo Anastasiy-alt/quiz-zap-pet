@@ -1,13 +1,15 @@
 'use client'
 
-import { useEffect } from 'react'
-import { useParams, useRouter } from 'next/navigation'
-import { useRoomPlay } from '@/hooks/useRoomPlay'
+import {useEffect} from 'react'
+import {useParams, useRouter} from 'next/navigation'
+import {useRoomPlay} from '@/hooks/useRoomPlay'
 import s from './play.module.sass'
 import QuizAppMulti from "@/components/quiz/multi";
+import {useRoom} from "@/hooks/useRoom";
 
 export default function PlayPage() {
-  const { code } = useParams<{ code: string }>()
+  const {code} = useParams<{ code: string }>()
+  const {playerId} = useRoom(code)
   const router = useRouter()
   const {
     room,
@@ -27,21 +29,23 @@ export default function PlayPage() {
   }
 
   return (
-    <section className={s.page}>
-       <QuizAppMulti data={quiz} code={code} />
-
-      <div className={s.scoreboard}>
+    <>
+      <QuizAppMulti data={quiz} code={code}/>
+      <table className={s.scoreboard}>
+        <tbody>
         {[...players]
           .sort((a, b) => b.score - a.score)
           .map((player, i) => (
-            <div key={player.id} className={s.scoreRow}>
-              <span className={s.scorePos}>#{i + 1}</span>
-              <span className={s.scoreName}>{player.name}</span>
-              <span className={s.scoreVal}>{player.score}</span>
-            </div>
+            <tr key={player.id}
+                className={`${s.scoreboard__row} ${playerId === player.id ? s.scoreboard__row_current : ''}`}>
+              <th className={s.scoreboard__rowPos}>#{i + 1}</th>
+              <th className={s.scoreboard__rowAva}>{player.emoji}</th>
+              <th className={s.scoreboard__rowName}>{player.name}</th>
+              <th className={s.scoreboard__rowVal}>{player.score}</th>
+            </tr>
           ))}
-      </div>
-
-    </section>
+        </tbody>
+      </table>
+    </>
   )
 }

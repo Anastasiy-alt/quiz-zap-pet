@@ -19,7 +19,7 @@ export function useRoomPlay(code: string) {
     ? room.currentQuestion >= (quiz?.questions.length ?? 0) - 1
     : false
 
-  // сброс при смене вопроса
+
   useEffect(() => {
     setSubmitted(false)
     setAllSubmitted(false)
@@ -27,7 +27,7 @@ export function useRoomPlay(code: string) {
     formRef.current?.reset()
   }, [room?.currentQuestion])
 
-  // следим за ответами всех игроков
+
   useEffect(() => {
     if (!code || !currentQuestion || !room) return
 
@@ -47,11 +47,9 @@ export function useRoomPlay(code: string) {
 
   const submitAnswer = async () => {
     if (!currentQuestion || !playerId || submitted || !room) return
-
     if (!formRef.current) return
     const formData = new FormData(formRef.current)
     const selected = formData.getAll(currentQuestion.id) as string[]
-    if (selected.length === 0) return
 
     const isCorrect = arraysEqual(currentQuestion.correct, selected)
 

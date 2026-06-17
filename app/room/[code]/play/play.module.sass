@@ -1,124 +1,55 @@
-.page
-  display: flex
-  flex-direction: column
-  gap: 0
-  min-height: 100vh
-
-.loading
-  text-align: center
-  padding: 48px
-  font-size: 14px
-  color: #6070A8
-
-// топ-бар
-.top
-  display: flex
-  align-items: center
-  gap: 12px
-  margin-bottom: 16px
-
-.topRight
-  display: flex
-  align-items: center
-  gap: 10px
-  flex-shrink: 0
-
-.qNum
-  font-size: 13px
-  color: #8090C0
-
-.playersCount
-  font-size: 13px
-  font-weight: 500
-  color: #5068F7
-  background: #EAF0FF
-  padding: 4px 10px
-  border-radius: 99px
-
-// основной блок
-.main
-  display: grid
-  grid-template-columns: 1fr 1fr
-  gap: 24px
-  flex: 1
-  margin-bottom: 16px
-
-.mainLeft
-  display: flex
-  flex-direction: column
-  gap: 14px
-
-.question
-  font-size: 18px
-  font-weight: 500
-  color: #060A4A
-  line-height: 1.5
-
-.explanation
-  background: #EAF0FF
-  border-left: 3px solid #3B52F0
-  border-radius: 0 10px 10px 0
-  padding: 10px 14px
-  display: flex
-  gap: 8px
-  align-items: flex-start
-  font-size: 12px
-  color: #5068F7
-  line-height: 1.5
-
-.explanationIcon
-  font-size: 15px
-  flex-shrink: 0
-
-.waitBlock
-  font-size: 13px
-  color: #8090C0
-  background: #EAF0FF
-  border-radius: 10px
-  padding: 10px 14px
-
-.mainRight
-  display: flex
-  flex-direction: column
-  gap: 8px
-
-// таблица счёта
 .scoreboard
-  background: #fff
-  border: 1.5px solid #D6E4FF
-  border-radius: 12px
-  padding: 12px 16px
+  background: $white
+  border-radius: 32px
+  outline: 4px solid $lavender-light
+  padding: 16px
   display: flex
   flex-direction: column
-  gap: 6px
-  margin-bottom: 16px
+  gap: 24px
+  @include tablet
+    gap: 16px
+    border-radius: 24px
+  @include mobile
+    padding: 16px 12px
+    border-radius: 16px
 
-.scoreRow
-  display: flex
-  align-items: center
-  gap: 10px
-  padding: 6px 8px
-  border-radius: 8px
+  &__row
+    display: flex
+    align-items: center
+    gap: 8px
+    padding: 8px 12px
+    border-bottom: 1px solid $lavender-light
+    @include mobile
+      padding: 8px
 
-  &:first-child
-    background: #EAF0FF
+    &_current
+      background: $lavender
 
-.scorePos
-  font-size: 12px
-  font-weight: 500
-  color: #A0B4CC
-  width: 24px
+    &Pos
+      @include font-styles(14px, 500)
+      color: $periwinkle
 
-.scoreName
-  flex: 1
-  font-size: 13px
-  font-weight: 500
-  color: #060A4A
+    &Name
+      text-align: left
+      flex: 1
+      @include font-styles(16px, 500)
+      color: $indigo-darkness
 
-.scoreVal
-  font-size: 13px
-  font-weight: 600
-  color: #3B52F0
+    &Val
+      @include font-styles(16px, 700)
+      color: $indigo-dark
+
+    &Ava
+      border-radius: 50%
+      width: 40px
+      height: 40px
+      background: $white
+      border: 2px solid $periwinkle
+      display: flex
+      flex-direction: column
+      align-items: center
+      justify-content: center
+      @include font-styles(24px, 400, 24px)
 
 // нижняя панель
 .bottom

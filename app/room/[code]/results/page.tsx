@@ -3,11 +3,12 @@
 import { useEffect } from 'react'
 import { useParams, useRouter } from 'next/navigation'
 import { useRoom } from '@/hooks/useRoom'
-import { QUIZZES } from '@/const/quizData'
+import { QUIZZES, QUIZ_RESULT } from '@/const/quizData'
 import { ref, update, remove } from 'firebase/database'
 import { db } from '@/lib/firebase'
 import Button from '@/components/ui/button'
 import s from './results.module.sass'
+import stl from "@/components/quiz/quiz.module.sass";
 
 export default function ResultsPage() {
   const { code } = useParams<{ code: string }>()
@@ -57,12 +58,7 @@ export default function ResultsPage() {
   }
 
   const getResult = (pct: number) => {
-    if (pct === 100) return { emoji: '🧠', text: 'Идеально!' }
-    if (pct >= 81)  return { emoji: '🏆', text: 'Отлично!' }
-    if (pct >= 61)  return { emoji: '🎯', text: 'Хороший результат' }
-    if (pct >= 41)  return { emoji: '🤔', text: 'Неплохо' }
-    if (pct >= 21)  return { emoji: '😬', text: 'Почти' }
-    return { emoji: '💀', text: 'Квиз победил' }
+    return QUIZ_RESULT.find(i => i.score >= pct)
   }
 
   const result = getResult(myPercent)
@@ -83,25 +79,32 @@ export default function ResultsPage() {
   }
 
   return (
-    <div className={s.page}>
+    <>
+      {result && (
+        <div className={stl.finish}>
+          <div className={stl.finish__main}>
+            <p className={stl.finish__icon}>{result.icon}</p>
+            <p className={stl.finish__title}>{result.title}</p>
+          </div>
 
-      {/* мой результат */}
-      {me && (
-        <div className={s.myResult}>
-          <span className={s.myEmoji}>{result.emoji}</span>
-          <div className={s.myInfo}>
-            <p className={s.myTitle}>{result.text}</p>
-            <p className={s.mySub}>
-              Место #{myRank} · {getCorrectCount(playerId!)} из {quiz.questions.length} верно · {myPercent}%
+
+          <div className={stl.finish__stats}>
+            <p className={stl.finish__statsText}>Правильных ответов</p>
+            <p className={stl.finish__statsText}>
+              <span>{getCorrectCount(playerId!)}</span> из {quiz.questions.length}
             </p>
           </div>
-          <div className={s.myScore}>
-            <span className={s.myScoreNum}>{me.score}</span>
-            <span className={s.myScoreMax}>/ {maxScore}</span>
+
+          <div className={stl.finish__score}>
+            <p className={stl.finish__scoreTitle}>Итоговый счёт</p>
+            <div className={stl.finish__scoreValue}>
+              <span>{me?.score ?? 0} </span> из {maxScore}
+            </div>
           </div>
         </div>
       )}
 
+    <div className={s.page}>
       {/* таблица лидеров */}
       <div className={s.leaderboard}>
         <p className={s.leaderboardTitle}>Таблица результатов</p>
@@ -143,5 +146,6 @@ export default function ResultsPage() {
       </div>
 
     </div>
+    </>
   )
 }

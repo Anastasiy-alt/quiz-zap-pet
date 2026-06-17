@@ -55,6 +55,7 @@ export default function QuizAppMulti({ data, code }: { data: Quiz, code: string 
 
   const handleTimeout = () => {
     setTimedOut(true)
+    if (formRef.current) formRef.current.reset()
     submitAnswer()
   }
 
@@ -85,16 +86,11 @@ export default function QuizAppMulti({ data, code }: { data: Quiz, code: string 
               alt={currentQuestion.image.description}
             />
           )}
-          {isAnswered && (
+          {(isAnswered && allSubmitted) && (
             <div className={stl.app__explanation}>
               <Image className={stl.app__explanationImg} src={Wand} alt="Объяснение ответа." />
               <p>{currentQuestion.explanation}</p>
             </div>
-          )}
-          {isAnswered && (
-            <p className={ms.waitStatus}>
-              {allSubmitted ? '✅ Все ответили' : '⏳ Ждём остальных...'}
-            </p>
           )}
         </div>
 
@@ -107,8 +103,8 @@ export default function QuizAppMulti({ data, code }: { data: Quiz, code: string 
               value={option.id}
               name={currentQuestion.id}
               text={option.text}
-              correct={correctAnswer(option.id)}
-              error={errorAnswer(option.id)}
+              correct={correctAnswer(option.id) && allSubmitted}
+              error={errorAnswer(option.id) && allSubmitted}
               disabled={isAnswered}
             />
           ))}
@@ -116,6 +112,11 @@ export default function QuizAppMulti({ data, code }: { data: Quiz, code: string 
       </div>
 
       <div className={stl.app__bottom}>
+        {isAnswered && (
+          <p className={ms.waitStatus}>
+            {allSubmitted ? '✅ Все ответили' : '⏳ Ждём остальных...'}
+          </p>
+        )}
         <div className={stl.app__bottomOut}>
           <div className={`${stl.app__bottomIn} ${isAnswered ? stl.app__bottomIn_slide : ''}`}>
             {isHost ? (
