@@ -545,3 +545,233 @@
 
     &_active
       color: $indigo-dark
+
+.emojiPicker
+  position: relative
+  width: fit-content
+
+  &__trigger
+    width: 50px
+    height: 50px
+    border-radius: 12px
+    background: $lavender
+    border: 2px solid $lavender-light
+    @include font-styles(28px)
+    cursor: pointer
+    display: flex
+    align-items: center
+    justify-content: center
+    @include transitionMixin(border-color)
+
+    &:hover
+      border-color: $indigo
+
+  &__gridOut
+    padding-right: 8px
+    position: absolute
+    bottom: 0
+    left: calc(100% + 8px)
+    background: $white
+    border: 2px solid $lavender-light
+    border-radius: 12px
+    z-index: 100
+    width: max-content
+    max-height: 200px
+    overflow: hidden
+    display: flex
+    flex-direction: column
+    @include mobile
+      left: calc(100% + 4px)
+      padding-right: 4px
+
+  &__grid
+    width: 100%
+    height: auto
+    padding: 8px
+    display: grid
+    grid-template-columns: repeat(8, 1fr)
+    gap: 2px
+    overflow-y: auto
+    overflow-x: hidden
+    @include mobile
+      grid-template-columns: repeat(5, 1fr)
+      padding: 4px
+
+    &::-webkit-scrollbar
+      width: 4px
+      border-radius: 4px
+
+    &::-webkit-scrollbar-track
+      margin: 8px
+      background: $lavender-light
+      height: 4px
+      border-radius: 4px
+
+    &::-webkit-scrollbar-thumb
+      background: $indigo
+      border-radius: 4px
+
+  &__item
+    width: 36px
+    height: 36px
+    border-radius: 8px
+    background: transparent
+    border: none
+    @include font-styles(20px)
+    cursor: pointer
+    display: flex
+    align-items: center
+    justify-content: center
+    @include transitionMixin(background)
+
+    &_active
+      background: $lavender
+      outline: 2px solid $indigo
+      outline-offset: -2px
+
+@include hover
+  .emojiPicker__item:hover
+    background: $lavender
+
+.modal
+  opacity: 0
+  z-index: -100
+  position: fixed
+  top: 50%
+  left: 50%
+  transform: translate(-50%, -50%)
+  display: flex
+  align-items: center
+  justify-content: center
+  width: 100%
+  height: 100%
+  pointer-events: none
+
+  &::before
+    content: ""
+    position: absolute
+    top: 50%
+    left: 50%
+    transform: translate(-50%, -50%)
+    background: $indigo-darkness
+    opacity: 0
+    width: 100vw
+    height: 100vh
+    @include transitionMixin(opacity)
+
+  &__inner
+    width: 70vw
+    max-height: 90vh
+    border-radius: 16px
+    padding: 24px
+    position: relative
+    background: $white
+    z-index: 1
+    display: flex
+    flex-direction: column
+    outline: 2px solid $lavender-light
+    outline-offset: -4px
+
+  &__content
+    overflow: auto
+
+  &__header
+    display: flex
+    flex-direction: row
+    justify-content: flex-end
+    align-items: center
+    color: $indigo-darkness
+    @include font-styles(20px, 600)
+
+  &__close
+    position: relative
+    width: 40px
+    height: 40px
+    cursor: pointer
+    @include transitionMixin()
+
+    span
+      position: absolute
+      top: 50%
+      left: 50%
+      width: 100%
+      height: 4px
+      border-radius: 2px
+      background: $indigo
+      @include transitionMixin()
+
+      &:nth-child(1)
+        transform: translate(-50%, -50%) rotate(45deg)
+
+      &:nth-child(2)
+        transform: translate(-50%, -50%) rotate(-45deg)
+
+body:has(.modal_open)
+  overflow: hidden
+
+.modal.modal_open
+  z-index: 1000
+  opacity: 1
+  pointer-events: auto
+
+  &::before
+    opacity: 0.6
+
+
+@include tablet
+  .modal
+    &__close
+      width: 30px
+      height: 30px
+
+    &__inner
+      width: 90vw
+      padding: 16px
+      max-height: 90dvh
+
+@include hover
+  .modal__close:hover
+    transform: rotate(180deg)
+
+    span
+      background: $indigo-dark
+
+.field
+  display: flex
+  flex-direction: column
+  gap: 6px
+  width: 100%
+
+  &__label
+    @include font-styles(14px, 600)
+    color: $indigo-darkness
+
+  &__input
+    background: $lavender
+    border: 2px solid $lavender-light
+    border-radius: 8px
+    padding: 12px 16px
+    @include font-styles(16px, 600, 22px)
+    color: $indigo-darkness
+    width: 100%
+    outline: none
+    caret-color: $indigo-dark
+    @include transitionMixin(border, background)
+
+    &::placeholder
+      color: $lavender-light
+
+    &:focus
+      border-color: $indigo-dark
+
+  &__error
+    @include font-styles(14px, 400)
+    color: $red
+    background: $peach
+    border: 1px solid $red
+    border-radius: 8px
+    padding: 8px 12px
+
+@include hover
+  .field__input:hover
+    border-color: $indigo-dark
