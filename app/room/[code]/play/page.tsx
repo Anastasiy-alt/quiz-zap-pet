@@ -1,51 +1,51 @@
 'use client'
 
-import {useEffect} from 'react'
-import {useParams, useRouter} from 'next/navigation'
-import {useRoomPlay} from '@/hooks/useRoomPlay'
-import s from './play.module.sass'
+import { useEffect, useState } from 'react'
+import { useParams } from 'next/navigation'
+import { useRoomPlay } from '@/hooks/useRoomPlay'
 import QuizAppMulti from "@/components/quiz/multi";
-import {useRoom} from "@/hooks/useRoom";
+import Leaderboard from "@/components/quiz/multi/leaderboard";
+import MultiLoading from "@/components/quiz/multi/loading";
 
 export default function PlayPage() {
-  const {code} = useParams<{ code: string }>()
-  const {playerId} = useRoom(code)
-  const router = useRouter()
+  const { code } = useParams<{ code: string }>()
   const {
     room,
     players,
     quiz,
-    currentQuestion,
+    playerId,
+    allSubmitted,
+    answeredIds,
   } = useRoomPlay(code)
 
-  useEffect(() => {
-    if (room?.state === 'finished') {
-      router.replace(`/room/${code}/results`)
-    }
-  }, [room?.state, code, router])
+  const [frozenScores, setFrozenScores] = useState<Record<string, number>>({})
 
-  if (!room || !quiz || !currentQuestion) {
-    return <div className={s.loading}>Загружаем вопрос...</div>
+  useEffect(() => {
+    if (players.length === 0) return
+    const snapshot: Record<string, number> = {}
+    players.forEach(p => { snapshot[p.id] = p.score })
+    setFrozenScores(snapshot)
+  }, [room?.currentQuestion])
+
+  if (!room || !quiz) {
+    return <MultiLoading text="Загружаем вопрос..." />
   }
+
+  const displayPlayers = allSubmitted
+    ? players
+    : players.map(p => ({ ...p, score: frozenScores[p.id] ?? p.score }))
 
   return (
     <>
-      <QuizAppMulti data={quiz} code={code}/>
-      <table className={s.scoreboard}>
-        <tbody>
-        {[...players]
-          .sort((a, b) => b.score - a.score)
-          .map((player, i) => (
-            <tr key={player.id}
-                className={`${s.scoreboard__row} ${playerId === player.id ? s.scoreboard__row_current : ''}`}>
-              <th className={s.scoreboard__rowPos}>#{i + 1}</th>
-              <th className={s.scoreboard__rowAva}>{player.emoji}</th>
-              <th className={s.scoreboard__rowName}>{player.name}</th>
-              <th className={s.scoreboard__rowVal}>{player.score}</th>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      <QuizAppMulti data={quiz} code={code} />
+      {room.state !== 'finished' && (
+        <Leaderboard
+          players={displayPlayers}
+          totalQuestions={quiz.questions.length}
+          playerId={playerId}
+          answeredIds={answeredIds}
+        />
+      )}
     </>
   )
 }

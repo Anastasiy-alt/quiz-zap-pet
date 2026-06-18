@@ -6,6 +6,7 @@ import {QUIZZES} from '@/const/quizData'
 import stl from '../room.module.sass'
 import Button from '@/components/ui/button'
 import React, {useEffect} from "react";
+import MultiLoading from '@/components/quiz/multi/loading'
 
 export default function RoomPage() {
   const {code} = useParams<{ code: string }>()
@@ -14,10 +15,10 @@ export default function RoomPage() {
 
   useEffect(() => {
     if (room?.state === 'playing') router.replace(`/room/${code}/play`)
-    if (room?.state === 'finished') router.replace(`/room/${code}/results`)
+    if (room?.state === 'finished') router.replace(`/room/${code}/play`)
   }, [room?.state, code, router])
 
-  if (loading) return <div className={stl.loading}>Подключаемся...</div>
+  if (loading) return <MultiLoading text="Подключаемся..." />
   if (error) return <div className={stl.error}>{error}</div>
   if (!room) return null
   if (room.state !== 'waiting') return null

@@ -8,10 +8,13 @@ import {useRoom} from '@/hooks/useRoom'
 
 export function useRoomPlay(code: string) {
   const {room, players, isHost, playerId, nextQuestion, finishGame} = useRoom(code)
-  const [submitted, setSubmitted] = useState(false)
+  const [submittedForQ, setSubmittedForQ] = useState<number | null>(null)
   const [allSubmitted, setAllSubmitted] = useState(false)
+  const [answeredIds, setAnsweredIds] = useState<Set<string>>(new Set())
   const [mySelected, setMySelected] = useState<string[]>([])
   const formRef = useRef<HTMLFormElement>(null)
+
+  const submitted = room !== null && submittedForQ === room.currentQuestion
 
   const quiz = QUIZZES.find(q => q.id === room?.quizId)
   const currentQuestion = quiz?.questions[room?.currentQuestion ?? 0]
@@ -21,8 +24,8 @@ export function useRoomPlay(code: string) {
 
 
   useEffect(() => {
-    setSubmitted(false)
     setAllSubmitted(false)
+    setAnsweredIds(new Set())
     setMySelected([])
     formRef.current?.reset()
   }, [room?.currentQuestion])
@@ -35,8 +38,9 @@ export function useRoomPlay(code: string) {
 
     const unsubscribe = onValue(answersRef, snapshot => {
       const answers = snapshot.val() ?? {}
-      const answeredCount = Object.keys(answers).length
-      setAllSubmitted(answeredCount >= players.length)
+      const ids = Object.keys(answers)
+      setAnsweredIds(new Set(ids))
+      setAllSubmitted(ids.length >= players.length)
     })
 
     return () => unsubscribe()
@@ -45,7 +49,7 @@ export function useRoomPlay(code: string) {
   const arraysEqual = (a: string[], b: string[]) =>
     [...a].sort().join(',') === [...b].sort().join(',')
 
-  const submitAnswer = async () => {
+  const submitAnswer = async (fastTime = 0, fastBonus = 0) => {
     if (!currentQuestion || !playerId || submitted || !room) return
     if (!formRef.current) return
     const formData = new FormData(formRef.current)
@@ -59,14 +63,16 @@ export function useRoomPlay(code: string) {
     )
 
     if (isCorrect) {
+      const elapsed = room.timerStartedAt ? (Date.now() - room.timerStartedAt) / 1000 : Infinity
+      const bonus = elapsed <= fastTime ? fastBonus : 0
       const currentScore = room.players[playerId]?.score ?? 0
       await update(ref(db, `rooms/${code}/players/${playerId}`), {
-        score: currentScore + 10,
+        score: currentScore + 10 + bonus,
       })
     }
 
     setMySelected(selected)
-    setSubmitted(true)
+    setSubmittedForQ(room.currentQuestion)
   }
 
   const handleNext = async () => {
@@ -86,8 +92,10 @@ export function useRoomPlay(code: string) {
     isLastQuestion,
     submitted,
     allSubmitted,
+    answeredIds,
     mySelected,
     formRef,
+    playerId,
     submitAnswer,
     handleNext,
   }

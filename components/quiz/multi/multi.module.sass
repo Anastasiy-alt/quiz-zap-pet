@@ -50,3 +50,84 @@
   @include font-styles(16px, 600)
   color: $indigo
   margin-left: auto
+
+.leaderboard
+  background: $white
+  border-radius: 32px
+  outline: 4px solid $lavender-light
+  padding: 16px
+  display: flex
+  flex-direction: column
+  gap: 8px
+  @include tablet
+    border-radius: 24px
+  @include mobile
+    padding: 16px 12px
+    border-radius: 16px
+
+  &__title
+    @include font-styles(16px, 600)
+    color: $indigo-darkness
+
+  &__list
+    display: flex
+    flex-direction: column
+
+  &__row
+    display: flex
+    align-items: center
+    gap: 8px
+    padding: 8px 12px
+    border-bottom: 1px solid $lavender-light
+    @include mobile
+      padding: 8px
+    &:last-child
+      border-bottom: none
+    &_me
+      background: $lavender
+
+  &__medal
+    @include font-styles(24px, 500, 24px)
+    color: $periwinkle
+    width: 28px
+    flex-shrink: 0
+    text-align: center
+
+  &__ava
+    border-radius: 50%
+    width: 40px
+    height: 40px
+    min-width: 40px
+    background: $white
+    border: 2px solid $periwinkle
+    display: flex
+    align-items: center
+    justify-content: center
+    @include font-styles(24px, 400, 24px)
+
+  &__name
+    flex: 1
+    text-align: left
+    @include font-styles(16px, 500)
+    color: $indigo-darkness
+
+  &__stats
+    display: flex
+    align-items: center
+    gap: 10px
+    flex-shrink: 0
+
+  &__correct
+    @include font-styles(12px, 400)
+    color: #06754d
+    background: #C8F0E2
+    padding: 2px 8px
+    border-radius: 99px
+
+  &__score
+    @include font-styles(16px, 700)
+    color: $indigo-dark
+
+  &__check
+    @include font-styles(14px, 700)
+    color: #06754d
