@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { ref, get, update } from 'firebase/database'
+import { ref, get, update, onDisconnect } from 'firebase/database'
 import { db } from '@/lib/firebase'
 
 interface JoinRoomParams {
@@ -35,25 +35,30 @@ export function useJoinRoom() {
         return
       }
 
-      // проверяем уникальность имени
-      const players = room.players ?? {}
-      const nameTaken = Object.values(players).some(
-        (p: any) => p.name === playerName.trim()
-      )
+      const players = Object.values(room.players ?? {}) as { name: string; emoji: string }[]
 
-      if (nameTaken) {
+      if (players.some(p => p.name === playerName.trim())) {
         setError('Игрок с таким именем уже в комнате')
+        return
+      }
+
+      if (players.some(p => p.emoji === emoji)) {
+        setError('Этот аватар уже занят — выбери другой')
         return
       }
 
       const playerId = crypto.randomUUID()
 
-      await update(ref(db, `rooms/${normalizedCode}/players/${playerId}`), {
+      const playerRef = ref(db, `rooms/${normalizedCode}/players/${playerId}`)
+
+      await update(playerRef, {
         name: playerName.trim(),
         score: 0,
         emoji,
         joinedAt: Date.now(),
       })
+
+      onDisconnect(playerRef).remove()
 
       sessionStorage.setItem('playerId', playerId)
       sessionStorage.setItem('playerName', playerName.trim())

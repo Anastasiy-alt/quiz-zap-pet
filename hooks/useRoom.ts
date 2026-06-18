@@ -1,6 +1,6 @@
 'use client'
 
-import {useEffect, useState} from 'react'
+import {useEffect, useMemo, useState} from 'react'
 import {onValue, ref, update} from 'firebase/database'
 import {db} from '@/lib/firebase'
 
@@ -38,11 +38,10 @@ export function useRoom(code: string) {
 
   const isHost = room?.hostId === playerId
 
-  const players = room
-    ? Object.entries(room.players ?? {}).map(([id, p]) => ({id, ...p}))
-    : []
-
-  console.log(players)
+  const players = useMemo(
+    () => room ? Object.entries(room.players ?? {}).map(([id, p]) => ({id, ...p})) : [],
+    [room]
+  )
 
   useEffect(() => {
     if (!code) return
@@ -65,6 +64,18 @@ export function useRoom(code: string) {
 
     return () => unsubscribe()
   }, [code])
+
+  useEffect(() => {
+    if (!room || !playerId) return
+    const playerIds = Object.keys(room.players ?? {})
+    if (playerIds.includes(room.hostId)) return
+    if (playerIds.length === 0) return
+
+    const sorted = players.slice().sort((a, b) => a.joinedAt - b.joinedAt)
+    if (sorted[0]?.id !== playerId) return
+
+    update(ref(db, `rooms/${code}`), { hostId: playerId })
+  }, [room?.hostId, players, playerId, code])
 
   const startGame = async () => {
     if (!isHost) return

@@ -41,7 +41,6 @@ export default function PlayPage() {
       {room.state !== 'finished' && (
         <Leaderboard
           players={displayPlayers}
-          totalQuestions={quiz.questions.length}
           playerId={playerId}
           answeredIds={answeredIds}
         />

@@ -121,7 +121,7 @@ export default function QuizAppMulti({ data, code }: { data: Quiz, code: string 
       {isFinished && quiz ? (
         <>
           {result && (
-            <div className={stl.finish}>
+            <div className={`${stl.finish} ${stl.finish_multi}`}>
               <div className={stl.finish__main}>
                 <p className={stl.finish__icon}>{result.icon}</p>
                 <p className={stl.finish__title}>{result.title}</p>
@@ -140,9 +140,7 @@ export default function QuizAppMulti({ data, code }: { data: Quiz, code: string 
           )}
           <Leaderboard
             players={players}
-            totalQuestions={quiz.questions.length}
             playerId={playerId}
-            answers={room.answers}
             finish
           />
         </>
@@ -210,8 +208,8 @@ export default function QuizAppMulti({ data, code }: { data: Quiz, code: string 
         ) : (
           <>
             {isAnswered && (
-              <p className={ms.waitStatus}>
-                {allSubmitted ? '✅ Все ответили' : '⏳ Ждём остальных...'}
+              <p className={`${stl.app__waitStatus} ${allSubmitted ? stl.app__waitStatus_done : stl.app__waitStatus_wait}`}>
+                {allSubmitted ? 'Все ответили' : 'Ждём остальных...'}
               </p>
             )}
             <div className={stl.app__bottomOut}>

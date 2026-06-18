@@ -29,7 +29,7 @@ const PLAYER_NAMES = [
 
 export default function RandomName({action}: {  action: (name: string) => void  }) {
   const randomName = () => {
-    const n =  PLAYER_NAMES[Math.floor(Math.random() * (PLAYER_NAMES.length - 1))]
+    const n = PLAYER_NAMES[Math.floor(Math.random() * PLAYER_NAMES.length)]
     action(n)
   }
 

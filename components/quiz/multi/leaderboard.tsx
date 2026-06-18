@@ -1,62 +1,67 @@
 import stl from './multi.module.sass'
-import { Room } from '@/hooks/useRoom'
+import Image from 'next/image'
+import Crown from '@/assets/icons/crown.svg'
 
 type PlayerRow = { id: string; name: string; emoji: string; score: number }
 
 interface Props {
   players: PlayerRow[]
-  totalQuestions: number
   playerId: string | null
-  answers?: Room['answers']
   finish?: boolean
   answeredIds?: Set<string>
 }
 
-const getMedal = (index: number) => {
-  if (index === 0) return '🥇'
-  if (index === 1) return '🥈'
-  if (index === 2) return '🥉'
-  return `#${index + 1}`
+const getRank = (score: number, sorted: { score: number }[]) =>
+  sorted.filter(p => p.score > score).length + 1
+
+const getDenseRank = (score: number, sorted: { score: number }[]) =>
+  new Set(sorted.filter(p => p.score > score).map(p => p.score)).size + 1
+
+const getMedal = (rank: number) => {
+  if (rank === 1) return '🥇'
+  if (rank === 2) return '🥈'
+  if (rank === 3) return '🥉'
+  return `#${rank}`
 }
 
-const getCorrectCount = (pid: string, answers: Room['answers']) => {
-  if (!answers) return 0
-  return Object.values(answers).filter(
-    (questionAnswers: any) => questionAnswers[pid]?.isCorrect
-  ).length
-}
-
-export default function Leaderboard({ players, totalQuestions, playerId, answers, finish, answeredIds }: Props) {
+export default function Leaderboard({players, playerId, finish, answeredIds}: Props) {
   const sorted = [...players].sort((a, b) => b.score - a.score)
 
   return (
-    <div className={stl.leaderboard}>
+    <div className={`${stl.leaderboard} ${finish ? stl.leaderboard_finish : ''}`}>
       <p className={stl.leaderboard__title}>Таблица результатов</p>
-      <div className={stl.leaderboard__list}>
-        {sorted.map((player, i) => (
-          <div
-            key={player.id}
-            className={`${stl.leaderboard__row} ${player.id === playerId ? stl.leaderboard__row_me : ''} ${finish && i === 0 ? stl.leaderboard__row_first : ''}`}
-          >
-            <span className={stl.leaderboard__medal}>
-              {finish ? getMedal(i) : `#${i + 1}`}
-            </span>
-            <span className={stl.leaderboard__ava}>{player.emoji}</span>
-            <span className={stl.leaderboard__name}>{player.name}</span>
-            <div className={stl.leaderboard__stats}>
-              {finish && answers !== undefined && (
-                <span className={stl.leaderboard__correct}>
-                  {getCorrectCount(player.id, answers)}/{totalQuestions} ✓
-                </span>
-              )}
-              {!finish && answeredIds?.has(player.id) && (
-                <span className={stl.leaderboard__check}>✓</span>
-              )}
-              <span className={stl.leaderboard__score}>{player.score} очков</span>
-            </div>
-          </div>
-        ))}
-      </div>
+      <table className={stl.leaderboard__table}>
+        <tbody>
+          {sorted.map((player) => {
+            const rank = getRank(player.score, sorted)
+            const denseRank = getDenseRank(player.score, sorted)
+            return (
+              <tr key={player.id} className={`${stl.leaderboard__row} ${player.id === playerId ? stl.leaderboard__row_me : ''}`}>
+                <td className={stl.leaderboard__medal}>
+                  {finish ? getMedal(denseRank) : `#${rank}`}
+                </td>
+                <td>
+                  <div className={stl.leaderboard__player}>
+                    <div className={stl.leaderboard__avaWrap}>
+                      {finish && denseRank === 1 && <Image className={stl.leaderboard__crown} src={Crown} alt="" width={30} height={30} />}
+                      <span className={stl.leaderboard__ava}>{player.emoji}</span>
+                    </div>
+                    <span className={stl.leaderboard__name}>{player.name}</span>
+                  </div>
+                </td>
+                <td>
+                  <div className={stl.leaderboard__scoreCell}>
+                    {!finish && answeredIds?.has(player.id) && (
+                      <svg className={stl.leaderboard__check} xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="currentColor"><path d="M400-304 240-464l56-56 104 104 264-264 56 56-320 320Z"/></svg>
+                    )}
+                    <span className={stl.leaderboard__score}>{player.score} очков</span>
+                  </div>
+                </td>
+              </tr>
+            )
+          })}
+        </tbody>
+      </table>
     </div>
   )
 }

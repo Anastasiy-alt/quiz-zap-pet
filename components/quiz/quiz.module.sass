@@ -188,6 +188,7 @@
     margin-bottom: auto
     @include tablet
       height: 150px
+
   &__top
     display: flex
     flex-direction: row
@@ -302,6 +303,24 @@
         @include tablet
           transform: translateX(142px)
 
+  &__waitStatus
+    @include font-styles(16px, 600)
+    color: $indigo
+    padding: 8px 12px
+    border-radius: 8px
+    background: $lavender
+    width: fit-content
+
+    &_done
+      background: rgba($green-light, 0.3)
+      color: $green
+      outline: 1px solid $green
+
+    &_wait
+      background: rgba($yellow, 0.3)
+      color: $red-light
+      outline: 1px solid $red-light
+
 @keyframes explanationShow
   0%
     transform: translateY(100%)
@@ -331,6 +350,10 @@
     display: flex
     flex-direction: column
     gap: 8px
+
+  &_multi
+    grid-template-rows: repeat(3, 1fr)
+
   &__lifes
     grid-column: span 2
     outline: 2px solid $crimson
@@ -398,6 +421,7 @@
       height: fit-content
       padding: 12px
       gap: 4px
+
     &Title
       @include font-styles(18px, 400)
       color: $white
@@ -405,6 +429,7 @@
         @include font-styles(14px, 400)
       @include mobile
         order: 1
+
     &Value
       color: $lavender
       @include font-styles(22px, 400)
@@ -412,11 +437,13 @@
         @include font-styles(18px, 400)
       @include mobile
         order: 3
+
       span
         color: $white
         @include font-styles(52px, 700)
         @include tablet
           @include font-styles(32px, 700)
+
   &__count
     display: flex
     flex-direction: row
@@ -444,6 +471,7 @@
         text-align: center
         border-radius: 8px
         @include font-styles(14px, 400, 14px)
+
   &__stats
     display: flex
     flex-direction: row
@@ -472,30 +500,34 @@
           @include font-styles(28px, 600)
 
 
-
 .start
   display: flex
   flex-direction: column
   gap: 24px
+
   &__top
     display: flex
     flex-direction: row
     gap: 24px
     align-items: center
+
   &__title
     @include font-styles(24px, 600)
     @include tablet
       @include font-styles(20px, 600)
+
     &Block
       color: $indigo-darkness
       display: flex
       flex-direction: column
       gap: 4px
+
   &__subtitle
     @include font-styles(20px, 400)
     color: $indigo-dark
     @include tablet
       @include font-styles(16px, 400)
+
   &__icon
     outline: 2px solid $periwinkle
     display: flex
@@ -526,15 +558,18 @@
         width: 100%
         height: 100%
         z-index: -1
+
   &__main
     display: flex
     flex-direction: column
     gap: 16px
+
   &__description
     @include font-styles(20px, 400)
     color: $indigo-darkness
     @include tablet
       @include font-styles(18px, 400)
+
   &__rulesBlock
     display: grid
     grid-template-columns: repeat(3, 1fr)
@@ -543,6 +578,7 @@
       gap: 12px
       display: flex
       flex-direction: column
+
   &__rule
     display: flex
     flex-direction: column
@@ -558,6 +594,7 @@
       padding: 12px 8px
       grid-template-columns: min-content 1fr
       grid-template-rows: repeat(2, min-content)
+
     &Img
       object-fit: contain
       width: 40px
@@ -571,16 +608,19 @@
         border: 3px solid $white
       @include mobile
         grid-row: span 2
+
     &Title
       @include font-styles(20px, 600)
       color: $indigo-dark
       @include tablet
         @include font-styles(16px, 600)
+
     &Subtitle
       @include font-styles(16px, 400)
       color: $indigo-darkness
       @include tablet
         @include font-styles(14px, 400)
+
   &__mode
     display: flex
     flex-direction: column

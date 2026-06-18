@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { ref, set, get } from 'firebase/database'
+import { ref, set, get, onDisconnect } from 'firebase/database'
 import { db } from '@/lib/firebase'
 import { generateRoomCode } from '@/lib/generateRoomCode'
 
@@ -24,7 +24,6 @@ export function useCreateRoom() {
       let code = ''
       let attempts = 0
 
-      // ищем свободный код
       while (attempts < 5) {
         const candidate = generateRoomCode()
         const snapshot = await get(ref(db, `rooms/${candidate}`))
@@ -37,7 +36,6 @@ export function useCreateRoom() {
 
       if (!code) throw new Error('Не удалось сгенерировать код')
 
-      // создаём комнату
       await set(ref(db, `rooms/${code}`), {
         quizId,
         hostId,
@@ -54,6 +52,8 @@ export function useCreateRoom() {
           }
         }
       })
+
+      onDisconnect(ref(db, `rooms/${code}/players/${hostId}`)).remove()
 
       sessionStorage.setItem('playerId', hostId)
       sessionStorage.setItem('playerName', hostName.trim())
