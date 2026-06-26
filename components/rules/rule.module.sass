@@ -89,10 +89,12 @@
       @include font-styles(16px, 400)
 
 .modes
-  display: flex
-  flex-direction: row
+  display: grid
+  grid-template-columns: 1fr 1fr
   gap: 16px
+
   @include mobile
+    display: flex
     flex-direction: column
 
 .mode
@@ -105,6 +107,21 @@
   @include mobile
     padding: 16px 24px 24px
 
+  &_multi
+    grid-column: span 2
+    outline: 2px solid $indigo
+    background-color: rgba($periwinkle, 0.2)
+
+    svg path
+      color: $indigo
+
+    .mode__title
+      color: $indigo
+    .mode__list
+      display: grid
+      grid-template-columns: 1fr 1fr
+      @include mobile
+        grid-template-columns: 1fr
   &_easy
     outline: 2px solid $green
     background-color: rgba($green-light, 0.2)

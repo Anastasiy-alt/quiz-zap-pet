@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useRef, useState } from 'react'
+import {useEffect, useRef, useState} from 'react'
 import stl from './ui.module.sass'
 
 interface Tab {
@@ -14,7 +14,7 @@ interface Props {
   onChange: (value: string) => void
 }
 
-export default function Tabs({ tabs, value, onChange }: Props) {
+export default function Tabs({tabs, value, onChange}: Props) {
   const wrapRef = useRef<HTMLDivElement>(null)
   const sliderRef = useRef<HTMLDivElement>(null)
   const btnRefs = useRef<(HTMLButtonElement | null)[]>([])
@@ -23,11 +23,7 @@ export default function Tabs({ tabs, value, onChange }: Props) {
     const btn = btnRefs.current[index]
     const slider = sliderRef.current
     if (!btn || !slider) return
-    if (index === 1) {
-      slider.style.transform = `translateX(100%)`
-    } else {
-      slider.style.transform = `translateX(0)`
-    }
+    slider.style.transform = `translateX(calc(${100 * index}% + ${2 * index}px))`
   }
 
   useEffect(() => {
@@ -41,12 +37,14 @@ export default function Tabs({ tabs, value, onChange }: Props) {
   }
 
   return (
-    <div className={stl.tabs} ref={wrapRef}>
-      <div className={stl.tabs__slider} ref={sliderRef} />
+    <div className={stl.tabs} ref={wrapRef} style={{'--i': tabs.length} as React.CSSProperties}>
+      <div className={stl.tabs__slider} ref={sliderRef}/>
       {tabs.map((tab, i) => (
         <button
           key={tab.value}
-          ref={el => { btnRefs.current[i] = el }}
+          ref={el => {
+            btnRefs.current[i] = el
+          }}
           className={`${stl.tabs__tab} ${value === tab.value ? stl.tabs__tab_active : ''}`}
           onClick={() => handleClick(tab, i)}
         >

@@ -19,8 +19,9 @@ export default function PointsRules() {
           value={mode}
           onChange={setMode}
           tabs={[
-            {label: '"Обычный"', value: 'normal'},
-            {label: '"Хардкор"', value: 'hard'},
+            {label: 'Обычный', value: 'normal'},
+            {label: 'Хардкор', value: 'hard'},
+            {label: 'Мульти', value: 'multi'},
           ]}
         />
         {
@@ -43,7 +44,7 @@ export default function PointsRules() {
                 <span>0 очков, −1 жизнь</span>
               </li>
             </ul>
-          ) : (
+          ) : (mode === 'normal' ? (
             <ul className={stl.points__list}>
               <li className={`${stl.point} ${stl.point_correct}`}>
                 Правильный ответ
@@ -58,7 +59,18 @@ export default function PointsRules() {
                 <span>0 очков, −1 жизнь</span>
               </li>
             </ul>
-          )
+          ) : (
+            <ul className={stl.points__list}>
+              <li className={`${stl.point} ${stl.point_correct}`}>
+                Правильный ответ
+                <span>+10 очков</span>
+              </li>
+              <li className={`${stl.point} ${stl.point_fast}`}>
+                Бонус за скорость
+                <span>+5 очков</span>
+              </li>
+            </ul>
+          ))
         }
         <div className={stl.points__info}>
           При мульти-выборе нужно выбрать строго все правильные варианты — частичный ответ считается ошибкой

@@ -513,7 +513,8 @@
   border-radius: 12px
   padding: 4px
   position: relative
-  display: flex
+  display: grid
+  grid-template-columns: repeat(var(--i), 1fr)
 
   &__slider
     position: absolute
@@ -525,7 +526,7 @@
     z-index: 0
     pointer-events: none
     left: 4px
-    width: calc(50% - 4px)
+    width: calc((100% / (var(--i))) - 4px)
 
   &__tab
     flex: 1
@@ -542,6 +543,8 @@
     white-space: nowrap
     @include tablet
       @include font-styles(16px, 600)
+    @include mobile
+      padding: 8px 12px
 
     &_active
       color: $indigo-dark
